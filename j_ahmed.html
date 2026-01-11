@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junayed Ahmed | Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; scroll-behavior: smooth; }
+        .card { background: #1e293b; border: 1px solid #334155; transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-5px); border-color: #22d3ee; box-shadow: 0 10px 30px -10px rgba(34, 211, 238, 0.2); }
+        
+        .modal-overlay { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .hidden { display: none; opacity: 0; visibility: hidden; }
+        .flex-modal { display: flex; opacity: 1; visibility: visible; }
+
+        .video-container-9-16 {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 9 / 16;
+            background: #000;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 2px solid #22d3ee;
+        }
+
+        nav { backdrop-filter: blur(8px); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <a href="https://wa.me/8801406791944" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center">
+        <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
+    </a>
+
+    <div id="videoModal" class="hidden modal-overlay fixed inset-0 z-[100] bg-slate-950/90 items-center justify-center p-4">
+        <div class="relative flex flex-col items-center">
+            <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-cyan-400 flex items-center gap-2 font-bold">
+                Close <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="video-container-9-16 shadow-2xl">
+                <video id="resumeVideo" controls class="w-full h-full">
+                    <source id="videoSource" src="" type="video/mp4">
+                </video>
+            </div>
+            <p id="videoTitle" class="mt-4 text-cyan-400 font-mono text-sm">Junayed Ahmed | Video Resume</p>
+        </div>
+    </div>
+
+    <div id="imageModal" class="hidden modal-overlay fixed inset-0 z-[110] bg-black/95 items-center justify-center p-4">
+        <button onclick="closeImageModal()" class="absolute top-6 right-6 text-white hover:text-cyan-400 transition z-[120]">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <div class="relative max-w-5xl w-full flex justify-center">
+            <img id="modalFullImg" src="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl border border-slate-800 object-contain">
+        </div>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full z-[90] border-b border-slate-800 shadow-xl bg-slate-950/80">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tighter text-cyan-400">J_Ahmed</h1>
+            <div class="flex space-x-4 md:space-x-8 text-white items-center font-semibold text-sm md:text-base">
+                <a href="#about" class="hover:text-cyan-400 transition">About</a>
+                <a href="#projects" class="hover:text-cyan-400 transition">Projects</a>
+                <a href="#contact" class="hover:text-cyan-400 transition">Contact</a>
+                <button onclick="openModal('Video resume.mp4', 'Junayed Ahmed | Video Resume')" class="hidden sm:block bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 px-4 py-1 rounded-lg hover:bg-cyan-500 hover:text-slate-900 transition">
+                    Resume
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" class="max-w-6xl mx-auto px-6 pt-32 pb-20 flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 text-center md:text-left">
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Hi, I'm <span class="text-cyan-400">Junayed Ahmed</span>.</h2>
+            <p class="text-xl text-slate-400 mb-8 max-w-lg">
+                Computer Science and Engineering Student & Embedded System Programmer at <a href="https://droidco.co" target="_blank" class="text-cyan-400 hover:underline">Droidco.co</a>. 
+                I bridge the gap between hardware and software.
+            </p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                <a href="#contact" class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-8 py-3 rounded-lg font-bold transition">Get In Touch</a>
+                <button onclick="openModal('Video resume.mp4', 'Junayed Ahmed | Video Resume')" class="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3 rounded-lg font-bold flex items-center gap-2 transition">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i> Watch Resume
+                </button>
+            </div>
+        </div>
+        <div class="w-64 h-64 rounded-2xl overflow-hidden border-4 border-cyan-500/20 shadow-2xl shadow-cyan-500/10">
+            <img src="ProfilePic.jpeg" alt="Junayed Ahmed" class="w-full h-full object-cover">
+        </div>
+    </section>
+
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800">
+        <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+            <i data-lucide="cpu" class="text-cyan-400"></i> Featured Projects
+        </h3>
+        <div class="grid md:grid-cols-2 gap-8">
+            
+            <div class="card p-4 rounded-2xl flex flex-col h-full">
+                <div onclick="openImageModal('project.png')" class="h-64 bg-slate-800 rounded-xl mb-4 overflow-hidden relative group cursor-pointer">
+                    <img src="project.png" class="w-full h-full object-cover group-hover:opacity-40 transition duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="bg-cyan-500 text-slate-900 px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-xl">
+                            <i data-lucide="maximize-2" class="w-5 h-5"></i>
+                            <span>View Diagram</span>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="font-bold text-xl text-cyan-400">Traffic control System</h4>
+                <p class="text-slate-400 text-sm mt-2 mb-4">Arduino Mega, Membrane keyboard, Seven segment display. Implementation of a multi-layer authentication system.</p>
+                <div class="mt-auto flex gap-4">
+                    <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/TraficControlProject.ino" target="_blank" class="flex items-center gap-2 text-sm text-white hover:text-cyan-400 transition hover:underline">
+                        <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                    </a>
+                </div>
+            </div>
+
+            <div class="card p-4 rounded-2xl flex flex-col h-full">
+                <div class="h-64 bg-slate-800 rounded-xl mb-4 overflow-hidden relative group">
+                    <img src="ObstacleAvoidingCar.jpeg" class="w-full h-full object-cover group-hover:opacity-40 transition duration-300">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button onclick="openImageModal('ObstacleAvoidingCar.jpeg')" class="bg-cyan-500 text-slate-900 px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-xl scale-90 hover:scale-100 transition">
+                            <i data-lucide="image" class="w-4 h-4"></i> View Image
+                        </button>
+                        <button onclick="openModal('Obstacle_Avoiding_Car.mp4', 'Project: Obstacle Avoiding Car')" class="bg-white text-slate-900 px-4 py-2 rounded-lg flex items-center gap-2 font-bold shadow-xl scale-90 hover:scale-100 transition">
+                            <i data-lucide="play" class="w-4 h-4"></i> Watch Video
+                        </button>
+                    </div>
+                </div>
+                <h4 class="font-bold text-xl text-cyan-400">Obstacle Avoiding Car</h4>
+                <p class="text-slate-400 text-sm mt-2 mb-4">Arduino, Ultrasonic Sensor (HC-SR04), L298N Motor Driver. Autonomous obstacle Detection.</p>
+                <div class="mt-auto flex gap-4">
+                    <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/ObstacleAvoidingCar.ino" target="_blank" class="flex items-center gap-2 text-sm text-white hover:text-cyan-400 transition hover:underline">
+                        <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+        
+     <footer id="contact" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800">
+        <div class="grid md:grid-cols-2 gap-12 items-start">
+            <div>
+                <h3 class="text-3xl font-bold mb-4 text-white">Let's Connect</h3>
+                <p class="text-slate-400 mb-8">Available for hardware-software collaborations and innovative engineering projects.</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="mail"></i></div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Email Me</p>
+                            <a href="mailto:jahmed9832@gmail.com" class="text-slate-200 hover:text-cyan-400 transition">jahmed9832@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="phone"></i></div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Call / WhatsApp</p>
+                            <a href="tel:+8801406791944" class="text-slate-200 hover:text-cyan-400 transition">+880 1406791944</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="map-pin"></i></div>
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Location</p>
+                            <a class="text-slate-200 hover:text-cyan-400 transition">Dhaka, Bangladesh</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700">
+                <h4 class="text-xl font-bold mb-6 text-white">Social Profiles</h4>
+                <div class="flex flex-wrap gap-6">
+                    <a href="https://linkedin.com/in/junayed-ahmed-33bb64346" target="_blank" class="hover:text-cyan-400 transition transform hover:scale-110" title="LinkedIn">
+                        <i data-lucide="linkedin" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://github.com/jahmed9832" target="_blank" class="hover:text-white transition transform hover:scale-110" title="GitHub">
+                        <i data-lucide="github" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://wa.me/8801406791944" target="_blank" class="hover:text-green-400 transition transform hover:scale-110" title="WhatsApp">
+                        <i data-lucide="message-circle" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://facebook.com/j.ahmed.184" target="_blank" class="hover:text-blue-500 transition transform hover:scale-110" title="Facebook">
+                        <i data-lucide="facebook" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://instagram.com/jahmed9832" target="_blank" class="hover:text-pink-500 transition transform hover:scale-110" title="Instagram">
+                        <i data-lucide="instagram" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://t.me/Jahmed9832" target="_blank" class="hover:text-sky-400 transition transform hover:scale-110" title="Telegram">
+                        <i data-lucide="send" class="w-8 h-8"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <p class="mt-20 text-center text-slate-600 text-sm">© 2026 Developed by Junayed Ahmed. All the Rights are Reserved.</p>
+    </footer>
+
+
+    <script>
+        lucide.createIcons();
+
+        const videoModal = document.getElementById('videoModal');
+        const video = document.getElementById('resumeVideo');
+        const videoTitle = document.getElementById('videoTitle');
+
+        // UPDATED: Now accepts source and title
+        function openModal(src, title) {
+            video.src = src;
+            videoTitle.innerText = title;
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex-modal');
+            video.play();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex-modal');
+            video.pause();
+            video.src = ""; // Clear source to stop buffering
+            document.body.style.overflow = 'auto';
+        }
+
+        const imageModal = document.getElementById('imageModal');
+        const modalFullImg = document.getElementById('modalFullImg');
+
+        function openImageModal(imgSrc) {
+            modalFullImg.src = imgSrc;
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex-modal');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex-modal');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == videoModal) closeModal();
+            if (event.target == imageModal) closeImageModal();
+        }
+    </script>
+</body>
+</html>
