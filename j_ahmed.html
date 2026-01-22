@@ -1,32 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Junayed Ahmed | Embedded Systems Engineer & Algorithm Specialist.">
     <link rel="icon" type="image/jpeg" href="logo.png">
-    <title>Junayed Ahmed | Personal Portfolio</title>
+    <title>Junayed Ahmed | Embedded Engineer</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        main: '#020617',    // Deepest Slate (Background)
+                        section: '#0f172a', // Slate 900 (Footer/Sections)
+                        card: '#1e293b',    // Slate 800 (Cards)
+                        accent: '#22d3ee',  // Cyan 400 (Primary)
+                        secondary: '#a78bfa' // Violet 400 (Secondary)
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Professional Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+
     <style>
+        :root {
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
         body {
-            background-color: #0f172a;
+            /* Option A: Radial Glow on Main BG */
+            background-color: #020617;
+            background-image: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08) 0%, transparent 60%);
             color: #f8fafc;
-            scroll-behavior: smooth;
+            font-family: var(--font-body);
         }
 
-        .card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            transition: all 0.3s ease;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: var(--font-heading);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #22d3ee;
-            box-shadow: 0 10px 30px -10px rgba(34, 211, 238, 0.2);
+        .glass-card {
+            background-color: #1e293b;
+            /* Card BG */
+            border: 1px solid rgba(148, 163, 184, 0.1);
         }
 
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee;
+        }
+
+        /* Modal Transitions */
         .modal-overlay {
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
@@ -43,8 +97,20 @@
             visibility: visible;
         }
 
+        /* Nav Dropdown */
+        .nav-dropdown:hover .dropdown-menu {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+
+        .active-nav {
+            color: #22d3ee !important;
+        }
+
+        /* Video Container */
         .video-container-9-16 {
-            position: relative;
             width: 100%;
             max-width: 320px;
             aspect-ratio: 9 / 16;
@@ -52,287 +118,439 @@
             border-radius: 1rem;
             overflow: hidden;
             border: 2px solid #22d3ee;
-        }
-
-        nav {
-            backdrop-filter: blur(8px);
+            box-shadow: 0 0 50px -10px rgba(34, 211, 238, 0.2);
         }
     </style>
 </head>
 
-<body class="font-sans antialiased">
+<body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
+    <!-- Scroll Progress Bar -->
+    <div id="scrollBar" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-accent to-secondary z-[200]"></div>
+
+    <!-- WhatsApp Button -->
     <a href="https://wa.me/8801406791944" target="_blank"
-        class="fixed bottom-6 right-6 z-50 bg-[#25D366] p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center">
-        <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
+        class="fixed bottom-6 right-6 z-50 bg-[#25D366] p-4 rounded-full shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:scale-110 transition-transform flex items-center justify-center group">
+        <i data-lucide="message-circle" class="text-white w-7 h-7 fill-current"></i>
     </a>
 
-    <div id="videoModal"
-        class="hidden modal-overlay fixed inset-0 z-[150] bg-slate-950/95 flex flex-col items-center justify-center p-4 backdrop-blur-md">
+    <!-- Video Modal -->
+    <div id="videoModal" aria-hidden="true"
+        class="hidden modal-overlay fixed inset-0 z-[150] bg-main/95 flex flex-col items-center justify-center p-4 backdrop-blur-md">
         <div class="relative flex flex-col items-center max-w-full">
-            
             <div class="video-container-9-16 shadow-2xl">
-                <video id="resumeVideo" controls class="w-full h-full">
+                <video id="resumeVideo" controls class="w-full h-full object-cover" preload="none">
                     <source id="videoSource" src="" type="video/mp4">
                 </video>
             </div>
-            
-            <p id="videoTitle" class="mt-4 text-cyan-400 font-mono text-xs uppercase tracking-widest">Junayed Ahmed | Video Resume</p>
-            
+            <p id="videoTitle" class="mt-6 text-accent font-mono text-xs uppercase tracking-[0.2em] animate-pulse">
+                Junayed Ahmed | Video Resume</p>
             <button onclick="closeModal()"
-                class="mt-8 bg-white text-slate-900 px-8 py-3 rounded-xl flex items-center gap-2 font-bold hover:bg-cyan-400 transition-all active:scale-95 shadow-xl">
-                <i data-lucide="arrow-left" class="w-5 h-5"></i> BACK
+                class="mt-8 bg-card text-white border border-slate-700 px-8 py-3 rounded-xl flex items-center gap-2 font-bold hover:bg-accent hover:text-main transition-all active:scale-95 shadow-xl">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i> RETURN
             </button>
         </div>
     </div>
 
-    <div id="imageModal" class="hidden modal-overlay fixed inset-0 z-[110] bg-black/95 items-center justify-center p-4">
+    <!-- Image Modal -->
+    <div id="imageModal" aria-hidden="true"
+        class="hidden modal-overlay fixed inset-0 z-[110] bg-black/95 items-center justify-center p-4 backdrop-blur-sm">
         <button onclick="closeImageModal()"
-            class="absolute top-6 right-6 text-white hover:text-cyan-400 transition z-[120]">
+            class="absolute top-6 right-6 text-slate-400 hover:text-accent hover:rotate-90 transition-all duration-300 z-[120]">
             <i data-lucide="x" class="w-10 h-10"></i>
         </button>
-        <div class="relative max-w-5xl w-full flex justify-center">
+        <div class="relative max-w-6xl w-full flex justify-center">
             <img id="modalFullImg" src=""
                 class="max-w-full max-h-[90vh] rounded-lg shadow-2xl border border-slate-800 object-contain">
         </div>
     </div>
 
-    <style>
-    .nav-dropdown:hover .dropdown-menu {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
-    }
-</style>
-
-<nav class="fixed top-0 left-0 w-full z-[100] border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4 logo-container">
-            <img src="logo.png" alt="Logo"
-                class="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover transition-all duration-300">
-            <h1 class="text-sm md:text-lg font-bold tracking-tight">
-                <span class="text-cyan-400">J_Ahmed</span>
-            </h1>
-        </div>
-
-        <div class="flex items-center space-x-4 md:space-x-8 text-white font-semibold text-xs md:text-sm">
-            <a href="#about" class="hover:text-cyan-400 transition">About</a>
-            
-            <div class="relative nav-dropdown group">
-                <button class="flex items-center gap-1 hover:text-cyan-400 transition py-2">
-                    Projects <i data-lucide="chevron-down" class="w-3 h-3 md:w-4 md:h-4"></i>
-                </button>
-                
-                <div class="dropdown-menu absolute top-full left-0 w-40 md:w-48 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl hidden opacity-0 transition-all duration-200 transform translate-y-2 overflow-hidden">
-                    <a href="#embedded" class="flex items-center gap-3 px-4 py-3 hover:bg-cyan-500/10 hover:text-cyan-400 transition border-b border-slate-800/50">
-                        <i data-lucide="cpu" class="w-4 h-4 text-cyan-500"></i> Embedded Project
-                    </a>
-                    <a href="#algorithms" class="flex items-center gap-3 px-4 py-3 hover:bg-cyan-500/10 hover:text-cyan-400 transition">
-                        <i data-lucide="binary" class="w-4 h-4 text-cyan-500"></i> Algorithm Project
-                    </a>
+    <!-- Navigation (Glass Effect over Deep BG) -->
+    <nav class="fixed top-0 left-0 w-full z-[100] border-b border-white/5 bg-main/80 backdrop-blur-lg">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 logo-container group">
+                <div class="relative w-10 h-10">
+                    <img src="logo.png" alt="Logo"
+                        class="w-full h-full rounded-full border-2 border-slate-700 object-cover relative z-10 group-hover:border-accent transition-colors">
+                    <div
+                        class="absolute inset-0 rounded-full bg-accent blur-md opacity-0 group-hover:opacity-40 transition-opacity">
+                    </div>
                 </div>
-            </div>
-            <a href="#contact" class="hover:text-cyan-400 transition">Contact</a>
-        </div>
-    </div>
-</nav>
+                <h1 class="text-sm md:text-lg font-bold tracking-tight">
+                    <span class="text-slate-100 group-hover:text-accent transition-colors">J_Ahmed</span>
+                </h1>
+            </a>
 
-    <section id="about" class="max-w-6xl mx-auto px-6 pt-32 pb-20 flex flex-col md:flex-row items-center gap-12">
+            <div class="flex items-center space-x-6 md:space-x-8 text-slate-300 font-medium text-xs md:text-sm">
+                <a href="#about" class="nav-link hover:text-accent transition-colors py-2">About</a>
+                <div class="relative nav-dropdown group h-full">
+                    <button class="nav-link flex items-center gap-1 hover:text-accent transition-colors py-2">
+                        Projects <i data-lucide="chevron-down" class="w-3 h-3 md:w-4 md:h-4 opacity-70"></i>
+                    </button>
+                    <!-- Dropdown BG matches Section BG -->
+                    <div
+                        class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-48 bg-section border border-slate-800 rounded-xl shadow-2xl hidden opacity-0 transition-all duration-200 transform translate-y-4 backdrop-blur-xl overflow-hidden">
+                        <a href="#embedded"
+                            class="flex items-center gap-3 px-4 py-3 hover:bg-accent/10 hover:text-accent transition border-b border-slate-800/50">
+                            <i data-lucide="cpu" class="w-4 h-4 text-accent"></i> Embedded
+                        </a>
+                        <a href="#algorithms"
+                            class="flex items-center gap-3 px-4 py-3 hover:bg-secondary/10 hover:text-secondary transition">
+                            <i data-lucide="binary" class="w-4 h-4 text-secondary"></i> Algorithms
+                        </a>
+                        <a href="#web-game"
+                            class="flex items-center gap-3 px-4 py-3 hover:bg-accent/10 hover:text-accent transition border-b border-slate-800/50">
+                            <i data-lucide="cpu" class="w-4 h-4 text-accent"></i> Web Game
+                        </a>
+                    </div>
+                </div>
+                <a href="#contact" class="nav-link hover:text-accent transition-colors py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about"
+        class="max-w-6xl mx-auto px-6 pt-36 pb-20 flex flex-col md:flex-row items-center gap-12 md:gap-20">
         <div class="flex-1 text-center md:text-left">
-            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Hi, I'm <span
-                    class="text-cyan-400">Junayed Ahmed</span>.</h2>
-            <p class="text-xl text-slate-400 mb-8 max-w-lg">
-                Computer Science and Engineering Student & Embedded System Programmer at <a href="https://droidco.co"
-                    target="_blank" class="text-cyan-400 hover:underline">Droidco.co</a>.
-                I bridge the gap between hardware and software.
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-mono mb-6">
+                <span class="relative flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                Open for Collaboration
+            </div>
+
+            <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight text-white">
+                Building Efficient Systems <br>
+                <span
+                    class="block text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-accent via-cyan-300 to-secondary">
+                    Through Code & Logic.
+                </span>
+            </h2>
+
+            <p class="text-lg md:text-xl text-slate-400 mb-2 font-medium">
+                Hi, I'm <span class="text-slate-100 font-semibold">Junayed Ahmed</span>.
             </p>
+            <p class="text-base text-slate-500 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                Computer Science Student & Embedded System Programmer at <a href="https://droidco.co" target="_blank"
+                    class="text-accent hover:text-cyan-300 underline underline-offset-4 decoration-accent/30">Droidco.co</a>.
+                <br>Bridging The gap between Hardware and Software.
+            </p>
+
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
                 <a href="#contact"
-                    class="bg-cyan-500 hover:bg-cyan-600 text-slate-900 px-8 py-3 rounded-lg font-bold transition shadow-lg shadow-cyan-500/20">
+                    class="bg-accent hover:bg-cyan-400 text-main px-8 py-3 rounded-lg font-bold transition-all shadow-[0_0_20px_-5px_rgba(34,211,238,0.5)]">
                     Get In Touch
                 </a>
                 <button onclick="openModal('Video resume.mp4', 'Junayed Ahmed | Video Resume')"
-                    class="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3 rounded-lg font-bold flex items-center gap-2 transition">
-                    <i data-lucide="play-circle" class="w-5 h-5"></i> Watch Resume
+                    class="group border border-slate-700 bg-card hover:border-secondary/50 text-slate-300 hover:text-secondary px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Watch
+                    Resume
                 </button>
                 <a href="J.Ahmed Resume.pdf" target="_blank"
-                    class="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-6 py-3 rounded-lg font-bold flex items-center gap-2 transition min-w-[160px] justify-center">
-                    <i data-lucide="eye" class="w-5 h-5"></i> View CV
+                    class="bg-card hover:bg-secondary text-slate-300 hover:text-slate-950 px-5 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all">
+                    <i data-lucide="download" class="w-4 h-4"></i> CV
                 </a>
             </div>
         </div>
-        <div class="w-64 h-64 rounded-2xl overflow-hidden border-4 border-cyan-500/20 shadow-2xl shadow-cyan-500/10">
-            <img src="ProfilePic.jpeg" alt="Junayed Ahmed" class="w-full h-full object-cover">
+
+        <div class="relative group">
+            <!-- Glow uses secondary accent for depth -->
+            <div
+                class="absolute -inset-1 bg-gradient-to-tr from-accent to-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000">
+            </div>
+            <div class="relative w-72 h-72 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img src="ProfilePic.jpeg" alt="Junayed Ahmed"
+                    class="w-full h-full object-cover transform transition duration-500 group-hover:scale-105"
+                    loading="lazy">
+            </div>
         </div>
     </section>
 
-
-    <section id="embedded" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800">
-        <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
-            <i data-lucide="cpu" class="text-cyan-400"></i> Embedded Projects</h3>
-        <div class="grid md:grid-cols-2 gap-10">
-
+    <!-- Skills Snapshot (Using Card BG) -->
+    <section class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="glass-card rounded-2xl p-8 backdrop-blur-sm">
+            <h3 class="text-sm font-mono uppercase tracking-widest text-slate-500 mb-6 text-center md:text-left">
+                Technical Skills</h3>
             <div
-                class="group/card relative bg-slate-900/40 border border-white/5 rounded-[2rem] p-5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.2)] flex flex-col">
-                <div class="group/image relative h-64 mb-6 overflow-hidden rounded-2xl cursor-pointer"
-                    onclick="openImageModal('project.png')">
-                    <img src="project.png"
-                        class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700">
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-8 opacity-90">
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <!-- Icon Color: Accent -->
                     <div
-                        class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                        <div
-                            class="bg-white text-slate-900 px-5 py-2.5 rounded-full flex items-center gap-2 font-bold transform translate-y-4 group-hover/image:translate-y-0 transition duration-300">
-                            <i data-lucide="maximize-2" class="w-5 h-5"></i>
-                            <span>View Diagram</span>
-                        </div>
+                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
+                        <i data-lucide="cpu"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">Embedded C/C++</h4>
+                        <p class="text-xs text-slate-500">Firmware Logic</p>
                     </div>
                 </div>
-                <div class="px-2 flex flex-col flex-1">
-                    <h4 class="text-2xl font-bold text-white group-hover/card:text-cyan-400 transition-colors">Advance
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <!-- Icon Color: Secondary (Violet) for Logic/Algo -->
+                    <div
+                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
+                        <i data-lucide="brain-circuit"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">Algorithms</h4>
+                        <p class="text-xs text-slate-500">Optimization</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
+                        <i data-lucide="layers"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">System Design</h4>
+                        <p class="text-xs text-slate-500">Hardware Integration</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
+                        <i data-lucide="puzzle"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">Problem Solving</h4>
+                        <p class="text-xs text-slate-500">Analytical Thinking</p>
+                    </div>
+                </div>
+
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
+                        <i data-lucide="microchip"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">Microcontrollers</h4>
+                        <p class="text-xs text-slate-500">Arduino · ESP32 · AVR</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
+                        <i data-lucide="code"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-200 text-sm">Web Development</h4>
+                        <p class="text-xs text-slate-500">HTML · Tailwind CSS · JavaScript</p>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Embedded Projects Section -->
+    <section id="embedded" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="p-3 bg-accent/10 rounded-xl">
+                <i data-lucide="cpu" class="w-8 h-8 text-accent"></i>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-white">Embedded Projects</h3>
+                <p class="text-slate-500 text-sm mt-1">Bridging software logic with physical reality.</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <!-- Card 1 -->
+            <div
+                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
+                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
+                    onclick="openImageModal('project.png')">
+                    <img src="project.png" alt="Security System" loading="lazy"
+                        class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
+                    <div
+                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <span
+                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-1">
+                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Advanced
                         Security System</h4>
                     <div class="flex flex-wrap gap-2 mt-3 mb-4">
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Arduino
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
                             Mega</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">Membrane
-                            Keypad</span>
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Keypad</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">Seven
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Seven
                             Segment Display</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Implementation of a multi-layer
-                        authentication
-                        hub utilizing encrypted input processing and real-time Seven Segment visual feedback.</p>
-                    <div class="mt-auto pt-4 border-t border-white/5">
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Multi-layer authentication hub utilizing
+                        encrypted input processing and real-time visual feedback.</p>
+
+                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
+                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
+                            Eliminated mechanical bounce noise by 95% using software debouncing.</p>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/leon_project.ino"
                             target="_blank"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-cyan-400 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
                         </a>
+                        <i data-lucide="arrow-up-right"
+                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
 
+            <!-- Card 2 -->
             <div
-                class="group/card relative bg-slate-900/40 border border-white/5 rounded-[2rem] p-5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.2)] flex flex-col">
-                <div class="group/image relative h-64 mb-6 overflow-hidden rounded-2xl">
-                    <img src="ObstacleAvoidingCar.jpeg"
-                        class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700">
+                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
+                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl bg-main">
+                    <img src="ObstacleAvoidingCar.jpeg" alt="Robot Car" loading="lazy"
+                        class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
                     <div
-                        class="absolute inset-0 bg-slate-950/80 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
-                        <button onclick="openImageModal('ObstacleAvoidingCar.jpeg')"
-                            class="w-40 bg-cyan-500 text-slate-950 py-2.5 rounded-xl flex items-center justify-center gap-2 font-bold hover:bg-cyan-400 transition">
-                            <i data-lucide="image" class="w-4 h-4"></i> View Photo
-                        </button>
+                        class="absolute inset-0 bg-main/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
                         <button onclick="openModal('Obstacle_Avoiding_Car.mp4', 'Obstacle Avoiding Car')"
-                            class="w-40 bg-white text-slate-950 py-2.5 rounded-xl flex items-center justify-center gap-2 font-bold hover:bg-slate-200 transition">
-                            <i data-lucide="play-circle" class="w-4 h-4"></i> Play Demo
+                            class="px-5 py-2 bg-accent hover:bg-cyan-300 text-main rounded-lg font-bold text-xs uppercase flex items-center gap-2 transition">
+                            <i data-lucide="play" class="w-4 h-4 fill-current"></i> Demo
+                        </button>
+                        <button onclick="openImageModal('ObstacleAvoidingCar.jpeg')"
+                            class="px-5 py-2 bg-white hover:bg-slate-200 text-slate-950 rounded-lg font-bold text-xs uppercase flex items-center gap-2 transition">
+                            <i data-lucide="image" class="w-4 h-4"></i> Photo
                         </button>
                     </div>
                 </div>
-                <div class="px-2 flex flex-col flex-1">
-                    <h4 class="text-2xl font-bold text-white group-hover/card:text-cyan-400 transition-colors">Obstacle
-                        Avoiding Car</h4>
+                <div class="flex flex-col flex-1">
+                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">
+                        Autonomous Avoiding Car</h4>
                     <div class="flex flex-wrap gap-2 mt-3 mb-4">
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Arduino
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
                             Uno</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">L298N
-                            Driver</span>
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">L298N</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">HC-SR04
-                            Sensor</span>
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">ULTRASONIC
+                            SENSOR</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Autonomous robotic vehicle featuring
-                        ultrasonic
-                        sensor and servo-guided scanning for intelligent pathfinding.</p>
-                    <div class="mt-auto pt-4 border-t border-white/5">
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Robotic vehicle featuring sensor-guided
+                        pathfinding and servo-controlled scanning.</p>
+
+                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
+                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
+                            Achieved < 200ms reaction time for obstacle detection.</p>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/ObstacleAvoidingCar.ino"
                             target="_blank"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-cyan-400 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
                         </a>
+                        <i data-lucide="arrow-up-right"
+                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
 
+            <!-- Card 3 -->
             <div
-                class="group/card relative bg-slate-900/40 border border-white/5 rounded-[2rem] p-5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.2)] flex flex-col">
-                <div class="group/image relative h-64 mb-6 overflow-hidden rounded-2xl cursor-pointer"
+                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
+                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
                     onclick="openImageModal('DHT_Project.png')">
-                    <img src="DHT_Project.png"
-                        class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700">
+                    <img src="DHT_Project.png" alt="Climate Hub" loading="lazy"
+                        class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
                     <div
-                        class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                        <div
-                            class="bg-white text-slate-900 px-5 py-2.5 rounded-full flex items-center gap-2 font-bold transform translate-y-4 group-hover/image:translate-y-0 transition duration-300">
-                            <i data-lucide="maximize-2" class="w-5 h-5"></i>
-                            <span>View Diagram</span>
-                        </div>
+                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <span
+                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
+                        </span>
                     </div>
                 </div>
-                <div class="px-2 flex flex-col flex-1">
-                    <h4 class="text-2xl font-bold text-white group-hover/card:text-cyan-400 transition-colors">Climate
+                <div class="flex flex-col flex-1">
+                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Climate
                         Detection Hub</h4>
                     <div class="flex flex-wrap gap-2 mt-3 mb-4">
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">DHT22
-                            Sensor</span>
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">DHT22</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">16X2
-                            I2C
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">I2C
                             LCD</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">High-accuracy environmental monitor that
-                        triggers
-                        automated cooling systems based on real-time temperature thresholds.</p>
-                    <div class="mt-auto pt-4 border-t border-white/5">
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Environmental monitor triggering automated
+                        cooling systems based on real-time data.</p>
+
+                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
+                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
+                            Maintained temperature thresholds with ±0.5°C accuracy.</p>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/DHT_project.ino"
                             target="_blank"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-cyan-400 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
                         </a>
+                        <i data-lucide="arrow-up-right"
+                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
 
+            <!-- Card 4 -->
             <div
-                class="group/card relative bg-slate-900/40 border border-white/5 rounded-[2rem] p-5 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.2)] flex flex-col">
-                <div class="group/image relative h-64 mb-6 overflow-hidden rounded-2xl cursor-pointer"
+                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
+                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
                     onclick="openImageModal('Traffic_Control.png')">
-                    <img src="Traffic_Control.png"
-                        class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700">
+                    <img src="Traffic_Control.png" alt="Traffic System" loading="lazy"
+                        class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
                     <div
-                        class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
-                        <div
-                            class="bg-white text-slate-900 px-5 py-2.5 rounded-full flex items-center gap-2 font-bold transform translate-y-4 group-hover/image:translate-y-0 transition duration-300">
-                            <i data-lucide="maximize-2" class="w-5 h-5"></i>
-                            <span>View Diagram</span>
-                        </div>
+                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <span
+                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
+                        </span>
                     </div>
                 </div>
-                <div class="px-2 flex flex-col flex-1">
-                    <h4 class="text-2xl font-bold text-white group-hover/card:text-cyan-400 transition-colors">Traffic
-                        Control System</h4>
+                <div class="flex flex-col flex-1">
+                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Smart
+                        Traffic Control</h4>
                     <div class="flex flex-wrap gap-2 mt-3 mb-4">
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Arduino
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
                             Nano</span>
                         <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">Dual
-                            Control</span>
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">DUAL
+                            CONTROL</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">A smart intersection controller featuring
-                        synchronized timing cycles and manual override capabilities via hardware pushbuttons.</p>
-                    <div class="mt-auto pt-4 border-t border-white/5">
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Intersection controller featuring
+                        synchronized timing cycles and manual override interrupts.</p>
+
+                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
+                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
+                            Designed FSM (Finite State Machine) logic to prevent deadlock states.</p>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/TraficControlProject.ino"
                             target="_blank"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-cyan-400 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
                         </a>
+                        <i data-lucide="arrow-up-right"
+                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
@@ -340,156 +558,330 @@
         </div>
     </section>
 
-    <section id="algorithms" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800">
-        <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
-            <i data-lucide="binary" class="text-cyan-400"></i> Algorithm Projects
-        </h3>
-    
+    <!-- Algorithms Section (Subtle Violet/Secondary Accent Theme) -->
+    <section id="algorithms" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
+        <div class="flex items-center gap-4 mb-12">
+            <!-- Icon Color: Secondary -->
+            <div class="p-3 bg-secondary/10 rounded-xl">
+                <i data-lucide="binary" class="w-8 h-8 text-secondary"></i>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-white">Algorithm Projects</h3>
+                <p class="text-slate-500 text-sm mt-1">Performance-oriented algorithm design.</p>
+            </div>
+        </div>
+
         <div class="grid md:grid-cols-1 gap-10">
+            <!-- Card BG: Same dark theme, but hover effects use secondary color -->
             <div
-                class="group/card relative bg-slate-900/40 border border-white/5 rounded-[2rem] p-6 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.2)] flex flex-col md:flex-row gap-8">
-    
-                <div class="md:w-1/2 flex flex-col gap-4">
-                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer"
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-300 shadow-2xl flex flex-col md:flex-row gap-8">
+
+                <div class="md:w-5/12 flex flex-col gap-4">
+                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-main"
                         onclick="openImageModal('url_short.png')">
-                        <img src="url_short.png" alt="Algorithm Visualization"
-                            class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700">
+                        <img src="url_short.png" alt="Algorithm Visualization" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700 opacity-90">
                         <div
-                            class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                            class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Photo
+                            </span>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal('URL_Shortener.mp4', 'High-Performance URL Shortener')"
+                        class="w-full bg-slate-950 text-secondary border border-slate-700 hover:bg-secondary hover:text-main hover:border-secondary py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 group/btn">
+                        <i data-lucide="play-circle" class="w-5 h-5 group-hover/btn:fill-current"></i> Watch Logic
+                        Simulation
+                    </button>
+                </div>
+
+                <div class="md:w-7/12 flex flex-col justify-center">
+                    <h4 class="text-3xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors">
+                        High-Performance URL Shortener</h4>
+
+                    <div class="flex flex-wrap gap-2 mt-4 mb-6">
+                        <!-- Tags use secondary accent -->
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-secondary text-[10px] font-bold uppercase tracking-wider rounded border border-secondary/20">C++</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Hash
+                            Maps</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Greedy
+                            Algo</span>
+                    </div>
+
+                    <p class="text-slate-400 text-base leading-relaxed mb-6">
+                        Designed a high-speed URL mapping system utilizing a custom Hash Map for near-O(1) retrieval.
+                        Implemented a Greedy Algorithm for short-code generation to minimize key length.
+                    </p>
+
+                    <ul class="space-y-2 mb-8 text-sm text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i>
+                            <span>Reduced collision rate using <strong>Separate Chaining</strong> technique.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i>
+                            <span>Proven scalability for high-traffic environments via complexity analysis.</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-6 border-t border-white/5">
+                        <a href="https://github.com/jahmed9832/URL_Shortener/blob/main/url_shortener.cpp"
+                            target="_blank"
+                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-all duration-300 shadow-lg shadow-white/5">
+                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Web game Projects Section -->
+    <section id="web-game" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
+        <div class="flex items-center gap-4 mb-12">
+            <!-- Icon Color: Accent (can be different for web/game theme) -->
+            <div class="p-3 bg-accent/10 rounded-xl">
+                <i data-lucide="monitor" class="w-8 h-8 text-accent"></i>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-white">Web Game Project</h3>
+                <p class="text-slate-500 text-sm mt-1">Interactive browser-based game development.</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-1 gap-10">
+            <!-- Card -->
+            <div
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-accent/30 transition-all duration-300 shadow-2xl flex flex-col md:flex-row gap-8">
+
+                <!-- Left: Game Preview + Play Button -->
+                <div class="md:w-5/12 flex flex-col gap-4">
+                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-main"
+                        onclick="openImageModal('DinoLogo.png')">
+                        <img src="DinoLogo.png" alt="Web Game Preview" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700 opacity-90">
+                        <div
+                            class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Image
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="https://jahmed9832.github.io/Dino-Games/mobileDino.html" target="_blank"
+                        class="w-full inline-flex bg-slate-950 text-accent border border-slate-700 hover:bg-accent hover:text-main hover:border-accent py-3 rounded-xl items-center justify-center gap-2 font-bold transition-all duration-300">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i> Play Game
+                    </a>
+                </div>
+                <!-- Right: Game Info -->
+                <div class="md:w-7/12 flex flex-col justify-center">
+                    <h4 class="text-3xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Dino
+                        Games</h4>
+
+                    <div class="flex flex-wrap gap-2 mt-4 mb-6">
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/20">HTML</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/20">CSS</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/20">JavaScript</span>
+                    </div>
+
+                    <p class="text-slate-400 text-base leading-relaxed mb-6">
+                        Developed a browser-based endless runner game using HTML, CSS, and JavaScript. Players control a
+                        dinosaur to jump
+                        over obstacles, with increasing speed and dynamic day-night transitions for an engaging
+                        experience.
+                    </p>
+
+                    <ul class="space-y-2 mb-8 text-sm text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent mt-0.5 shrink-0"></i>
+                            <span>Fully responsive gameplay on both desktop and mobile browsers.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent mt-0.5 shrink-0"></i>
+                            <span>Dynamic scoring, progressive difficulty, and smooth animations for an immersive
+                                experience.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent mt-0.5 shrink-0"></i>
+                            <span>Interactive UI with hover effects and visual feedback for high scores.</span>
+                        </li>
+                    </ul>
+                    <div class="pt-6 border-t border-white/5">
+                        <a href="https://github.com/jahmed9832/Dino-Games/blob/main/mobileDino.html" target="_blank"
+                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-accent hover:text-white transition-all duration-300 shadow-lg shadow-white/5">
+                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer / Contact (Section BG) -->
+    <footer id="contact" class="bg-section border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-16">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+
+                <!-- Digital Presence (First) -->
+                <div class="bg-main border border-white/5 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+                    <div
+                        class="absolute top-0 right-0 w-48 h-48 bg-accent/5 blur-[80px] rounded-full pointer-events-none">
+                    </div>
+
+                    <div class="flex items-center justify-between mb-6 relative z-10">
+                        <h4 class="text-lg font-bold text-white tracking-tight">Digital Presence</h4>
+                        <span
+                            class="flex h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_12px_rgba(34,211,238,0.6)] animate-pulse"></span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 relative z-10">
+                        <a href="https://linkedin.com/in/junayed-ahmed-33bb64346" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-[#0077b5] hover:border-[#0077b5] hover:text-white transition-all duration-300 group">
+                            <i data-lucide="linkedin"
+                                class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-white">LinkedIn</span>
+                        </a>
+
+                        <a href="https://github.com/jahmed9832" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-white hover:border-white hover:text-slate-950 transition-all duration-300 group">
+                            <i data-lucide="github"
+                                class="w-4 h-4 text-slate-400 group-hover:text-slate-950 transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-slate-950">GitHub</span>
+                        </a>
+
+                        <a href="https://wa.me/8801406791944" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-all duration-300 group">
+                            <i data-lucide="message-circle"
+                                class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-white">WhatsApp</span>
+                        </a>
+
+                        <a href="https://t.me/Jahmed9832" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-[#0088cc] hover:border-[#0088cc] hover:text-white transition-all duration-300 group">
+                            <i data-lucide="send"
+                                class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-white">Telegram</span>
+                        </a>
+
+                        <a href="https://facebook.com/j.ahmed.184" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white transition-all duration-300 group">
+                            <i data-lucide="facebook"
+                                class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-white">Facebook</span>
+                        </a>
+
+                        <a href="https://instagram.com/jahmed9832" target="_blank"
+                            class="flex items-center gap-2 p-3 bg-section/50 border border-white/5 rounded-lg hover:bg-[#E4405F] hover:border-[#E4405F] hover:text-white transition-all duration-300 group">
+                            <i data-lucide="instagram"
+                                class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
+                            <span class="font-bold text-xs text-slate-300 group-hover:text-white">Instagram</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Info (Second) -->
+                <div>
+                    <h3 class="text-3xl font-bold mb-4 text-white tracking-tight">Let's Build Something.</h3>
+                    <p class="text-slate-400 mb-6 text-base">Available for hardware-software collaborations and
+                        innovative engineering projects.</p>
+
+                    <div class="space-y-4">
+                        <a href="mailto:jahmed9832@gmail.com"
+                            class="flex items-center gap-3 group p-3 rounded-xl hover:bg-main transition border border-transparent hover:border-slate-700">
                             <div
-                                class="bg-white text-slate-900 px-5 py-2.5 rounded-full flex items-center gap-2 font-bold transform translate-y-4 group-hover/image:translate-y-0 transition duration-300">
-                                <i data-lucide="maximize-2" class="w-5 h-5"></i>
-                                <span>View Image</span>
+                                class="p-3 bg-slate-800 rounded-lg text-accent group-hover:scale-110 transition-transform">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-0.5">Email
+                                    Me</p>
+                                <span
+                                    class="text-slate-200 text-sm font-medium group-hover:text-accent transition">jahmed9832@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <a href="tel:+8801406791944"
+                            class="flex items-center gap-3 group p-3 rounded-xl hover:bg-main transition border border-transparent hover:border-slate-700">
+                            <div
+                                class="p-3 bg-slate-800 rounded-lg text-accent group-hover:scale-110 transition-transform">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-0.5">Call
+                                </p>
+                                <span class="text-slate-200 text-sm font-medium group-hover:text-accent transition">+880
+                                    1406791944</span>
+                            </div>
+                        </a>
+
+                        <div class="flex items-center gap-3 p-3">
+                            <div class="p-3 bg-slate-800 rounded-lg text-accent"><i data-lucide="map-pin"
+                                    class="w-4 h-4"></i></div>
+                            <div>
+                                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-0.5">Base
+                                </p>
+                                <span class="text-slate-200 text-sm font-medium">Dhaka, Bangladesh</span>
                             </div>
                         </div>
                     </div>
-    
-                    <button onclick="openModal('URL_Shortener.mp4', 'High-Performance URL Shortener')"
-                        class="w-full bg-slate-800 hover:bg-cyan-500 hover:text-slate-900 text-cyan-400 py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition duration-300">
-                        <i data-lucide="play-circle" class="w-5 h-5"></i> Watch Simulation
-                    </button>
                 </div>
-    
-                <div class="md:w-1/2 flex flex-col justify-center">
-                    <h4 class="text-3xl font-bold text-white group-hover/card:text-cyan-400 transition-colors">High-Performance URL Shortener</h4>
-    
-                    <div class="flex flex-wrap gap-2 mt-4 mb-6">
-                        <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">C++</span>
-                        <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">Hashing</span>
-                        <span
-                            class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-slate-800 text-slate-400 rounded border border-slate-700">Greedy Key Generation</span>
-                    </div>
-    
-                    <p class="text-slate-400 text-lg leading-relaxed mb-8">
-                        High-Performance URL Shortener Engine Developed a high-speed URL mapping system utilizing a custom-implemented Hash Map to achieve near-O(1) retrieval times. Designed and implemented a Greedy Algorithm for short-code generation that ensures minimal key length through character reuse across a 62-character alphabet. Handled data integrity through Separate Chaining to resolve hash collisions, and analyzed time complexity to prove system scalability for high-traffic environments.
-                    </p>
-    
-                    <div class="pt-6 border-t border-white/5">
-                        <a href="https://github.com/jahmed9832/URL_Shortener/blob/main/url_shortener.cpp" target="_blank"
-                            class="inline-flex items-center gap-3 text-md font-bold text-white bg-slate-800 px-6 py-3 rounded-xl hover:bg-white hover:text-slate-950 transition-all duration-300">
-                            <i data-lucide="github" class="w-5 h-5"></i> View Source Code
-                        </a>
-                    </div>
-                </div>
+
+            </div>
+
+            <!-- Footer Note -->
+            <div class="mt-16 pt-6 border-t border-slate-800 text-center">
+                <p class="text-slate-500 text-xs font-medium">&copy; 2026 Junayed Ahmed. All Rights Reserved.</p>
             </div>
         </div>
-    </section>
-
-    <footer id="contact" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-800">
-        <div class="grid md:grid-cols-2 gap-12 items-start">
-            <div>
-                <h3 class="text-3xl font-bold mb-4 text-white">Let's Connect</h3>
-                <p class="text-slate-400 mb-8">Available for hardware-software collaborations and innovative engineering
-                    projects.</p>
-
-                <div class="space-y-6">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="mail"></i></div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Email Me</p>
-                            <a href="mailto:jahmed9832@gmail.com"
-                                class="text-slate-200 hover:text-cyan-400 transition">jahmed9832@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="phone"></i></div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Call</p>
-                            <a href="tel:+8801406791944" class="text-slate-200 hover:text-cyan-400 transition">+880
-                                1406791944</a>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-slate-800 rounded-lg text-cyan-400"><i data-lucide="map-pin"></i></div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Location</p>
-                            <a class="text-slate-200 hover:text-cyan-400 transition">Dhaka, Bangladesh</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white/5 p-8 md:p-10 rounded-[2.5rem] border border-white/5 backdrop-blur-sm shadow-2xl">
-                <div class="flex items-center justify-between mb-8">
-                    <h4 class="text-2xl font-bold text-white tracking-tight">Digital Presence</h4>
-                    <span class="flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <a href="https://linkedin.com/in/junayed-ahmed-33bb64346" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-indigo-600 hover:border-indigo-400 transition-all duration-300 group">
-                        <i data-lucide="linkedin"
-                            class="w-5 h-5 text-indigo-400 group-hover:text-white transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-white">LinkedIn</span>
-                    </a>
-
-                    <a href="https://github.com/jahmed9832" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-white hover:border-white transition-all duration-300 group">
-                        <i data-lucide="github"
-                            class="w-5 h-5 text-white group-hover:text-slate-950 transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-slate-950">GitHub</span>
-                    </a>
-
-                    <a href="https://wa.me/8801406791944" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-green-600 hover:border-green-400 transition-all duration-300 group">
-                        <i data-lucide="message-circle"
-                            class="w-5 h-5 text-green-400 group-hover:text-white transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-white">WhatsApp</span>
-                    </a>
-
-                    <a href="https://t.me/Jahmed9832" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-sky-500 hover:border-sky-300 transition-all duration-300 group">
-                        <i data-lucide="send" class="w-5 h-5 text-sky-400 group-hover:text-white transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-white">Telegram</span>
-                    </a>
-
-                    <a href="https://facebook.com/j.ahmed.184" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-blue-600 hover:border-blue-400 transition-all duration-300 group">
-                        <i data-lucide="facebook"
-                            class="w-5 h-5 text-blue-400 group-hover:text-white transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-white">Facebook</span>
-                    </a>
-
-                    <a href="https://instagram.com/jahmed9832" target="_blank"
-                        class="flex items-center gap-3 p-4 bg-slate-900/50 border border-white/5 rounded-2xl hover:bg-pink-600 hover:border-pink-400 transition-all duration-300 group">
-                        <i data-lucide="instagram"
-                            class="w-5 h-5 text-pink-400 group-hover:text-white transition-colors"></i>
-                        <span class="font-bold text-sm group-hover:text-white">Instagram</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <p class="mt-20 text-center text-slate-600 text-sm">© 2026 Developed by Junayed Ahmed. All the Rights are
-            Reserved.</p>
     </footer>
 
 
 
     <script>
+        // Initialize Icons
         lucide.createIcons();
 
+        // 1. Scroll Progress Bar
+        window.addEventListener("scroll", () => {
+            const scrollBar = document.getElementById("scrollBar");
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            scrollBar.style.width = scrolled + "%";
+        });
+
+        // 2. Active Link Highlighting
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove("active-nav");
+                if (link.getAttribute("href").includes(current) && current !== "") {
+                    link.classList.add("active-nav");
+                }
+            });
+        });
+
+        // 3. Video Modal Logic
         function openModal(src, title) {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('resumeVideo');
@@ -497,7 +889,7 @@
 
             video.src = src;
             titleEl.innerText = title;
-            
+
             modal.classList.remove('hidden');
             modal.style.display = 'flex';
             video.play();
@@ -511,10 +903,12 @@
             modal.classList.add('hidden');
             modal.style.display = 'none';
             video.pause();
-            video.src = "";
+            video.currentTime = 0;
+            video.src = ""; // Stop buffering
             document.body.style.overflow = 'auto';
         }
 
+        // 4. Image Modal Logic
         const imageModal = document.getElementById('imageModal');
         const modalFullImg = document.getElementById('modalFullImg');
 
@@ -531,13 +925,21 @@
             document.body.style.overflow = 'auto';
         }
 
+        // 5. Close on Click Outside or Escape Key
         window.onclick = function (event) {
             const vModal = document.getElementById('videoModal');
             const iModal = document.getElementById('imageModal');
             if (event.target == vModal) closeModal();
             if (event.target == iModal) closeImageModal();
         }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                closeModal();
+                closeImageModal();
+            }
+        });
     </script>
 </body>
-</html>
 
+</html>
