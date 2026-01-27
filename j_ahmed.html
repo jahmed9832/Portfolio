@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Junayed Ahmed | Embedded Systems Engineer & Algorithm Specialist.">
     <link rel="icon" type="image/jpeg" href="logo.png">
-    <title>Junayed Ahmed | Embedded Engineer</title>
+    <title>Junayed Ahmed | Personal Portfolio</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,7 +41,6 @@
         }
 
         body {
-            /* Option A: Radial Glow on Main BG */
             background-color: #020617;
             background-image: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08) 0%, transparent 60%);
             color: #f8fafc;
@@ -58,7 +57,6 @@
 
         .glass-card {
             background-color: #1e293b;
-            /* Card BG */
             border: 1px solid rgba(148, 163, 184, 0.1);
         }
 
@@ -85,19 +83,13 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .hidden {
-            display: none;
-            opacity: 0;
-            visibility: hidden;
-        }
-
         .flex-modal {
             display: flex;
             opacity: 1;
             visibility: visible;
         }
 
-        /* Nav Dropdown */
+        /* Nav Dropdown CSS Fallback */
         .nav-dropdown:hover .dropdown-menu {
             display: block !important;
             opacity: 1 !important;
@@ -119,6 +111,23 @@
             overflow: hidden;
             border: 2px solid #22d3ee;
             box-shadow: 0 0 50px -10px rgba(34, 211, 238, 0.2);
+        }
+
+        /* Floating Animation Keyframes */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float-slow {
+            animation: float 4s ease-in-out infinite;
         }
     </style>
 </head>
@@ -165,49 +174,79 @@
         </div>
     </div>
 
-    <!-- Navigation (Glass Effect over Deep BG) -->
-    <nav class="fixed top-0 left-0 w-full z-[100] border-b border-white/5 bg-main/80 backdrop-blur-lg">
+    <!-- ================= NAVBAR ================= -->
+    <nav class="fixed top-0 left-0 w-full z-[9999] bg-main/80 backdrop-blur-lg border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 logo-container group">
-                <div class="relative w-10 h-10">
-                    <img src="logo.png" alt="Logo"
-                        class="w-full h-full rounded-full border-2 border-slate-700 object-cover relative z-10 group-hover:border-accent transition-colors">
-                    <div
-                        class="absolute inset-0 rounded-full bg-accent blur-md opacity-0 group-hover:opacity-40 transition-opacity">
-                    </div>
-                </div>
-                <h1 class="text-sm md:text-lg font-bold tracking-tight">
-                    <span class="text-slate-100 group-hover:text-accent transition-colors">J_Ahmed</span>
-                </h1>
+
+            <!-- Logo Section (Fixed) -->
+            <a href="#about" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="Logo"
+                    class="w-9 h-9 rounded-full object-cover border border-accent/30 group-hover:border-accent transition-colors">
+                <span class="text-accent font-bold text-lg">J_Ahmed</span>
             </a>
 
-            <div class="flex items-center space-x-6 md:space-x-8 text-slate-300 font-medium text-xs md:text-sm">
-                <a href="#about" class="nav-link hover:text-accent transition-colors py-2">About</a>
-                <div class="relative nav-dropdown group h-full">
-                    <button class="nav-link flex items-center gap-1 hover:text-accent transition-colors py-2">
-                        Projects <i data-lucide="chevron-down" class="w-3 h-3 md:w-4 md:h-4 opacity-70"></i>
+            <!-- ================= DESKTOP MENU ================= -->
+            <div class="hidden md:flex items-center gap-8 text-slate-300 text-sm font-medium">
+
+                <a href="#about" class="hover:text-accent transition nav-link">Home</a>
+                <a href="#skills" class="hover:text-accent transition nav-link">Skills</a>
+
+                <!-- Desktop Dropdown -->
+                <div class="relative">
+                    <button id="projectBtn" class="flex items-center gap-1 hover:text-accent transition">
+                        Projects
+                        <i id="projectIcon" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
                     </button>
-                    <!-- Dropdown BG matches Section BG -->
-                    <div
-                        class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-48 bg-section border border-slate-800 rounded-xl shadow-2xl hidden opacity-0 transition-all duration-200 transform translate-y-4 backdrop-blur-xl overflow-hidden">
+
+                    <div id="projectMenu" class="absolute right-0 mt-3 w-48
+                 bg-section border border-slate-800 rounded-xl shadow-2xl
+                 opacity-0 invisible translate-y-4 scale-95
+                 transition-all duration-300 ease-out backdrop-blur-xl overflow-hidden">
+
                         <a href="#embedded"
-                            class="flex items-center gap-3 px-4 py-3 hover:bg-accent/10 hover:text-accent transition border-b border-slate-800/50">
-                            <i data-lucide="cpu" class="w-4 h-4 text-accent"></i> Embedded
-                        </a>
+                            class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Embedded</a>
                         <a href="#algorithms"
-                            class="flex items-center gap-3 px-4 py-3 hover:bg-secondary/10 hover:text-secondary transition">
-                            <i data-lucide="binary" class="w-4 h-4 text-secondary"></i> Algorithms
-                        </a>
-                        <a href="#web-game"
-                            class="flex items-center gap-3 px-4 py-3 hover:bg-accent/10 hover:text-accent transition border-b border-slate-800/50">
-                            <i data-lucide="cpu" class="w-4 h-4 text-accent"></i> Web Game
-                        </a>
+                            class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Algorithms</a>
+                        <a href="#web-game" class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Web
+                            Game</a>
                     </div>
                 </div>
-                <a href="#contact" class="nav-link hover:text-accent transition-colors py-2">Contact</a>
+                <a href="#contact" class="hover:text-accent transition nav-link">Contact</a>
             </div>
+
+            <!-- ================= MOBILE BUTTON ================= -->
+            <button id="menuBtn" class="md:hidden text-slate-300 hover:text-accent transition">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
         </div>
     </nav>
+
+    <!-- ================= MOBILE MENU ================= -->
+    <div id="mobileMenu" class="md:hidden fixed top-[72px] left-0 w-full
+         bg-main/95 backdrop-blur-xl
+         border-t border-slate-800
+         hidden z-[9000]">
+
+        <div class="px-6 py-6 space-y-6 text-slate-300 text-base font-medium">
+
+            <a href="#about" class="block">Home</a>
+            <a href="#skills" class="block">Skills</a>
+            <!-- Mobile Dropdown -->
+            <details class="group">
+                <summary class="flex justify-between items-center cursor-pointer">
+                    Projects
+                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                </summary>
+                <div class="mt-3 ml-4 space-y-2 text-slate-400">
+                    <a href="#embedded" class="block">Embedded</a>
+                    <a href="#algorithms" class="block">Algorithms</a>
+                    <a href="#web-game" class="block">Web Game</a>
+                </div>
+            </details>
+
+            <a href="#contact" class="block">Contact</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="about"
@@ -237,7 +276,6 @@
             <p class="text-base text-slate-500 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
                 Computer Science Student & Embedded System Programmer at <a href="https://droidco.co" target="_blank"
                     class="text-accent hover:text-cyan-300 underline underline-offset-4 decoration-accent/30">Droidco.co</a>.
-                <br>Bridging The gap between Hardware and Software.
             </p>
 
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
@@ -270,86 +308,129 @@
         </div>
     </section>
 
-    <!-- Skills Snapshot (Using Card BG) -->
-    <section class="max-w-6xl mx-auto px-6 pb-20">
-        <div class="glass-card rounded-2xl p-8 backdrop-blur-sm">
-            <h3 class="text-sm font-mono uppercase tracking-widest text-slate-500 mb-6 text-center md:text-left">
-                Technical Skills</h3>
+    <!-- Skills Snapshot -->
+    <section id="skills" class="max-w-6xl mx-auto px-6 pb-20 overflow-hidden">
+        <div class="relative">
+
+            <!-- Background Decorative Blur -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none">
+            </div>
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-8 lg:gap-x-12 gap-y-6 sm:gap-y-8 opacity-90">
+                class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl pointer-events-none">
+            </div>
 
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <!-- Icon Color: Accent -->
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
-                        <i data-lucide="cpu"></i></div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">Embedded C/C++</h4>
-                        <p class="text-xs text-slate-500">Firmware Logic</p>
+            <h3
+                class="text-sm font-mono uppercase tracking-widest text-slate-500 mb-8 text-center md:text-left flex items-center gap-2">
+                <span class="w-8 h-[1px] bg-slate-700 inline-block md:hidden"></span>
+                Technical Skills
+                <span class="w-8 h-[1px] bg-slate-700 inline-block md:hidden"></span>
+            </h3>
+
+            <!-- Skills Grid -->
+            <div class="reveal-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Skill Card -->
+                <div
+                    class="glass-card animate-float-slow skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-accent border border-slate-800 group-hover:border-accent/50 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all">
+                            <i data-lucide="cpu" class="w-6 h-6 group-hover:rotate-12 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-accent transition-colors">
+                                Embedded C/C++
+                            </h4>
+                            <p class="text-xs text-slate-500">Firmware Logic</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <!-- Icon Color: Secondary (Violet) for Logic/Algo -->
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
-                        <i data-lucide="brain-circuit"></i></div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">Algorithms</h4>
-                        <p class="text-xs text-slate-500">Optimization</p>
+                <div
+                    class="glass-card animate-float-slow [animation-delay:1s] skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-secondary border border-slate-800 group-hover:border-secondary/50 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.3)] transition-all">
+                            <i data-lucide="brain-circuit"
+                                class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-secondary transition-colors">
+                                Algorithms
+                            </h4>
+                            <p class="text-xs text-slate-500">Optimization</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
-                        <i data-lucide="layers"></i></div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">System Design</h4>
-                        <p class="text-xs text-slate-500">Hardware Integration</p>
+                <div
+                    class="glass-card animate-float-slow [animation-delay:2s] skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-accent border border-slate-800 group-hover:border-accent/50 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all">
+                            <i data-lucide="layers" class="w-6 h-6 group-hover:-translate-y-1 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-accent transition-colors">
+                                System Design
+                            </h4>
+                            <p class="text-xs text-slate-500">Hardware Integration</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
-                        <i data-lucide="puzzle"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">Problem Solving</h4>
-                        <p class="text-xs text-slate-500">Analytical Thinking</p>
-                    </div>
-                </div>
-
-
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-accent border border-slate-800 group-hover:border-accent/50 transition">
-                        <i data-lucide="microchip"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">Microcontrollers</h4>
-                        <p class="text-xs text-slate-500">Arduino · ESP32 · AVR</p>
+                <div
+                    class="glass-card animate-float-slow [animation-delay:.5s] skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-secondary border border-slate-800 group-hover:border-secondary/50 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.3)] transition-all">
+                            <i data-lucide="puzzle" class="w-6 h-6 group-hover:rotate-45 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-secondary transition-colors">
+                                Problem Solving
+                            </h4>
+                            <p class="text-xs text-slate-500">Analytical Thinking</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 group transform transition-transform duration-300 hover:scale-105">
-                    <div
-                        class="p-2 bg-slate-950 rounded-lg text-secondary border border-slate-800 group-hover:border-secondary/50 transition">
-                        <i data-lucide="code"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-200 text-sm">Web Development</h4>
-                        <p class="text-xs text-slate-500">HTML · Tailwind CSS · JavaScript</p>
+                <div
+                    class="glass-card animate-float-slow [animation-delay:1.5s] skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-accent border border-slate-800 group-hover:border-accent/50 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all">
+                            <i data-lucide="microchip" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-accent transition-colors">
+                                Microcontrollers
+                            </h4>
+                            <p class="text-xs text-slate-500">Arduino · ESP32 · AVR</p>
+                        </div>
                     </div>
                 </div>
 
-
-
+                <div
+                    class="glass-card animate-float-slow [animation-delay:2.5s] skill-card-hover p-5 rounded-2xl border border-slate-800/60 group">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="p-3 bg-slate-950 rounded-xl text-secondary border border-slate-800 group-hover:border-secondary/50 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.3)] transition-all">
+                            <i data-lucide="code" class="w-6 h-6 group-hover:-translate-y-1 transition-transform"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-200 group-hover:text-secondary transition-colors">
+                                Web Development
+                            </h4>
+                            <p class="text-xs text-slate-500">HTML · Tailwind · JS</p>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </section>
+
 
     <!-- Embedded Projects Section -->
     <section id="embedded" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
@@ -558,10 +639,9 @@
         </div>
     </section>
 
-    <!-- Algorithms Section (Subtle Violet/Secondary Accent Theme) -->
+    <!-- Algorithms Section -->
     <section id="algorithms" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
         <div class="flex items-center gap-4 mb-12">
-            <!-- Icon Color: Secondary -->
             <div class="p-3 bg-secondary/10 rounded-xl">
                 <i data-lucide="binary" class="w-8 h-8 text-secondary"></i>
             </div>
@@ -602,7 +682,6 @@
                         High-Performance URL Shortener</h4>
 
                     <div class="flex flex-wrap gap-2 mt-4 mb-6">
-                        <!-- Tags use secondary accent -->
                         <span
                             class="px-2 py-1 bg-slate-950 text-secondary text-[10px] font-bold uppercase tracking-wider rounded border border-secondary/20">C++</span>
                         <span
@@ -727,12 +806,12 @@
     </section>
 
 
-    <!-- Footer / Contact (Section BG) -->
+    <!-- Footer / Contact -->
     <footer id="contact" class="bg-section border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-6 py-16">
             <div class="grid md:grid-cols-2 gap-12 items-start">
 
-                <!-- Digital Presence (First) -->
+                <!-- Digital Presence -->
                 <div class="bg-main border border-white/5 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
                     <div
                         class="absolute top-0 right-0 w-48 h-48 bg-accent/5 blur-[80px] rounded-full pointer-events-none">
@@ -789,7 +868,7 @@
                     </div>
                 </div>
 
-                <!-- Contact Info (Second) -->
+                <!-- Contact Info -->
                 <div>
                     <h3 class="text-3xl font-bold mb-4 text-white tracking-tight">Let's Build Something.</h3>
                     <p class="text-slate-400 mb-6 text-base">Available for hardware-software collaborations and
@@ -846,18 +925,15 @@
     </footer>
 
 
-
+    <!-- Main Logic Script -->
     <script>
-        // Initialize Icons
-        lucide.createIcons();
-
         // 1. Scroll Progress Bar
         window.addEventListener("scroll", () => {
             const scrollBar = document.getElementById("scrollBar");
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            scrollBar.style.width = scrolled + "%";
+            if (scrollBar) scrollBar.style.width = scrolled + "%";
         });
 
         // 2. Active Link Highlighting
@@ -887,24 +963,30 @@
             const video = document.getElementById('resumeVideo');
             const titleEl = document.getElementById('videoTitle');
 
-            video.src = src;
-            titleEl.innerText = title;
+            if (video) video.src = src;
+            if (titleEl) titleEl.innerText = title;
 
-            modal.classList.remove('hidden');
-            modal.style.display = 'flex';
-            video.play();
-            document.body.style.overflow = 'hidden';
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
+                if (video) video.play();
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeModal() {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('resumeVideo');
 
-            modal.classList.add('hidden');
-            modal.style.display = 'none';
-            video.pause();
-            video.currentTime = 0;
-            video.src = ""; // Stop buffering
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            }
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+                video.src = ""; // Stop buffering
+            }
             document.body.style.overflow = 'auto';
         }
 
@@ -913,16 +995,20 @@
         const modalFullImg = document.getElementById('modalFullImg');
 
         function openImageModal(imgSrc) {
-            modalFullImg.src = imgSrc;
-            imageModal.classList.remove('hidden');
-            imageModal.classList.add('flex-modal');
-            document.body.style.overflow = 'hidden';
+            if (modalFullImg) modalFullImg.src = imgSrc;
+            if (imageModal) {
+                imageModal.classList.remove('hidden');
+                imageModal.classList.add('flex-modal');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeImageModal() {
-            imageModal.classList.add('hidden');
-            imageModal.classList.remove('flex-modal');
-            document.body.style.overflow = 'auto';
+            if (imageModal) {
+                imageModal.classList.add('hidden');
+                imageModal.classList.remove('flex-modal');
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // 5. Close on Click Outside or Escape Key
@@ -940,6 +1026,69 @@
             }
         });
     </script>
-</body>
 
+    <!-- Init & Menu Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initialize Icons Once
+            lucide.createIcons();
+
+            // Mobile menu toggle logic
+            const menuBtn = document.getElementById("menuBtn");
+            const mobileMenu = document.getElementById("mobileMenu");
+
+            if (menuBtn && mobileMenu) {
+                // Toggle menu on hamburger click
+                menuBtn.addEventListener("click", () => {
+                    mobileMenu.classList.toggle("hidden");
+                });
+                // NEW FIX: Auto-close mobile menu when any link is clicked
+                const mobileLinks = mobileMenu.querySelectorAll("a");
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener("click", () => {
+                        mobileMenu.classList.add("hidden"); // Hide the menu
+                    });
+                });
+            }
+
+            // Desktop dropdown logic
+            const projectBtn = document.getElementById("projectBtn");
+            const projectMenu = document.getElementById("projectMenu");
+            const projectIcon = document.getElementById("projectIcon");
+
+            let open = false;
+
+            if (projectBtn) {
+                projectBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    open = !open;
+
+                    if (projectMenu) {
+                        projectMenu.classList.toggle("opacity-0", !open);
+                        projectMenu.classList.toggle("invisible", !open);
+                        projectMenu.classList.toggle("translate-y-4", !open);
+                        projectMenu.classList.toggle("scale-95", !open);
+
+                        projectMenu.classList.toggle("opacity-100", open);
+                        projectMenu.classList.toggle("visible", open);
+                        projectMenu.classList.toggle("translate-y-0", open);
+                        projectMenu.classList.toggle("scale-100", open);
+                    }
+                    if (projectIcon) projectIcon.classList.toggle("rotate-180", open);
+                });
+            }
+
+            // Outside click close logic for Desktop Dropdown
+            document.addEventListener("click", () => {
+                open = false;
+                if (projectMenu) {
+                    projectMenu.classList.add("opacity-0", "invisible", "translate-y-4", "scale-95");
+                    projectMenu.classList.remove("opacity-100", "visible", "translate-y-0", "scale-100");
+                }
+                if (projectIcon) projectIcon.classList.remove("rotate-180");
+            });
+        });
+    </script>
+</body>
 </html>
