@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Junayed Ahmed | Embedded Systems Engineer & Algorithm Specialist.">
+    <meta name="description" content="Junayed Ahmed | Embedded Systems Programmer & Passionate CSE Student.">
     <link rel="icon" type="image/jpeg" href="logo.png">
     <title>Junayed Ahmed | Personal Portfolio</title>
 
@@ -89,31 +89,34 @@
             visibility: visible;
         }
 
-        /* Nav Dropdown CSS Fallback */
-        .nav-dropdown:hover .dropdown-menu {
-            display: block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
-        }
-
         .active-nav {
             color: #22d3ee !important;
         }
 
-        /* Video Container */
-        .video-container-9-16 {
-            width: 100%;
-            max-width: 320px;
-            aspect-ratio: 9 / 16;
+        /* --- DYNAMIC VIDEO CONTAINER --- */
+        .video-container {
             background: #000;
             border-radius: 1rem;
             overflow: hidden;
             border: 2px solid #22d3ee;
             box-shadow: 0 0 50px -10px rgba(34, 211, 238, 0.2);
+            transition: all 0.3s ease-in-out;
         }
 
-        /* Floating Animation Keyframes */
+        /* Landscape Orientation (Games, Algos) */
+        .video-landscape {
+            width: 85vw;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+        }
+
+        /* Portrait Orientation (Resume, Robot) */
+        .video-portrait {
+            width: 65vw;
+            max-width: 320px;
+            aspect-ratio: 9 / 16;
+        }
+
         @keyframes float {
 
             0%,
@@ -147,13 +150,13 @@
     <div id="videoModal" aria-hidden="true"
         class="hidden modal-overlay fixed inset-0 z-[150] bg-main/95 flex flex-col items-center justify-center p-4 backdrop-blur-md">
         <div class="relative flex flex-col items-center max-w-full">
-            <div class="video-container-9-16 shadow-2xl">
+            <div id="videoFrame" class="video-container shadow-2xl">
                 <video id="resumeVideo" controls class="w-full h-full object-cover" preload="none">
                     <source id="videoSource" src="" type="video/mp4">
                 </video>
             </div>
             <p id="videoTitle" class="mt-6 text-accent font-mono text-xs uppercase tracking-[0.2em] animate-pulse">
-                Junayed Ahmed | Video Resume</p>
+                Showcase</p>
             <button onclick="closeModal()"
                 class="mt-8 bg-card text-white border border-slate-700 px-8 py-3 rounded-xl flex items-center gap-2 font-bold hover:bg-accent hover:text-main transition-all active:scale-95 shadow-xl">
                 <i data-lucide="arrow-left" class="w-5 h-5"></i> RETURN
@@ -163,87 +166,71 @@
 
     <!-- Image Modal -->
     <div id="imageModal" aria-hidden="true"
-        class="hidden modal-overlay fixed inset-0 z-[110] bg-black/95 items-center justify-center p-4 backdrop-blur-sm">
-        <button onclick="closeImageModal()"
-            class="absolute top-6 right-6 text-slate-400 hover:text-accent hover:rotate-90 transition-all duration-300 z-[120]">
-            <i data-lucide="x" class="w-10 h-10"></i>
-        </button>
-        <div class="relative max-w-6xl w-full flex justify-center">
+        class="hidden modal-overlay fixed inset-0 z-[110] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="relative max-w-6xl w-full flex flex-col items-center">
             <img id="modalFullImg" src=""
-                class="max-w-full max-h-[90vh] rounded-lg shadow-2xl border border-slate-800 object-contain">
+                class="max-w-full max-h-[75vh] rounded-lg shadow-2xl border border-slate-800 object-contain mb-8 transition-transform duration-500">
+
+            <button onclick="closeImageModal()"
+                class="bg-card text-white border border-slate-700 px-8 py-3 rounded-xl flex items-center gap-2 font-bold hover:bg-secondary hover:text-main transition-all active:scale-95 shadow-[0_0_30px_-5px_rgba(167,139,250,0.3)]">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i> BACK TO PORTFOLIO
+            </button>
         </div>
     </div>
 
     <!-- ================= NAVBAR ================= -->
     <nav class="fixed top-0 left-0 w-full z-[9999] bg-main/80 backdrop-blur-lg border-b border-white/5">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-            <!-- Logo Section (Fixed) -->
             <a href="#about" class="flex items-center gap-3 group">
                 <img src="logo.png" alt="Logo"
                     class="w-9 h-9 rounded-full object-cover border border-accent/30 group-hover:border-accent transition-colors">
                 <span class="text-accent font-bold text-lg">J_Ahmed</span>
             </a>
 
-            <!-- ================= DESKTOP MENU ================= -->
             <div class="hidden md:flex items-center gap-8 text-slate-300 text-sm font-medium">
-
                 <a href="#about" class="hover:text-accent transition nav-link">Home</a>
                 <a href="#skills" class="hover:text-accent transition nav-link">Skills</a>
-
-                <!-- Desktop Dropdown -->
                 <div class="relative">
                     <button id="projectBtn" class="flex items-center gap-1 hover:text-accent transition">
-                        Projects
-                        <i id="projectIcon" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        Projects <i id="projectIcon" data-lucide="chevron-down"
+                            class="w-4 h-4 transition-transform"></i>
                     </button>
-
-                    <div id="projectMenu" class="absolute right-0 mt-3 w-48
-                 bg-section border border-slate-800 rounded-xl shadow-2xl
-                 opacity-0 invisible translate-y-4 scale-95
-                 transition-all duration-300 ease-out backdrop-blur-xl overflow-hidden">
-
+                    <div id="projectMenu"
+                        class="absolute right-0 mt-3 w-48 bg-section border border-slate-800 rounded-xl shadow-2xl opacity-0 invisible translate-y-4 scale-95 transition-all duration-300 ease-out backdrop-blur-xl overflow-hidden">
                         <a href="#embedded"
                             class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Embedded</a>
                         <a href="#algorithms"
                             class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Algorithms</a>
+                        <a href="#console-game"
+                            class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Console Game</a>
                         <a href="#web-game" class="block px-4 py-3 hover:bg-accent/10 hover:text-accent transition">Web
                             Game</a>
                     </div>
                 </div>
                 <a href="#contact" class="hover:text-accent transition nav-link">Contact</a>
             </div>
-
-            <!-- ================= MOBILE BUTTON ================= -->
-            <button id="menuBtn" class="md:hidden text-slate-300 hover:text-accent transition">
-                <i data-lucide="menu" class="w-7 h-7"></i>
-            </button>
+            <button id="menuBtn" class="md:hidden text-slate-300 hover:text-accent transition"><i data-lucide="menu"
+                    class="w-7 h-7"></i></button>
         </div>
     </nav>
 
     <!-- ================= MOBILE MENU ================= -->
-    <div id="mobileMenu" class="md:hidden fixed top-[72px] left-0 w-full
-         bg-main/95 backdrop-blur-xl
-         border-t border-slate-800
-         hidden z-[9000]">
-
+    <div id="mobileMenu"
+        class="md:hidden fixed top-[72px] left-0 w-full bg-main/95 backdrop-blur-xl border-t border-slate-800 hidden z-[9000]">
         <div class="px-6 py-6 space-y-6 text-slate-300 text-base font-medium">
-
             <a href="#about" class="block">Home</a>
             <a href="#skills" class="block">Skills</a>
-            <!-- Mobile Dropdown -->
             <details class="group">
-                <summary class="flex justify-between items-center cursor-pointer">
-                    Projects
-                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                <summary class="flex justify-between items-center cursor-pointer"> Projects <i
+                        data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
                 </summary>
                 <div class="mt-3 ml-4 space-y-2 text-slate-400">
                     <a href="#embedded" class="block">Embedded</a>
                     <a href="#algorithms" class="block">Algorithms</a>
+                    <a href="#console-game" class="block">Console Game</a>
                     <a href="#web-game" class="block">Web Game</a>
                 </div>
             </details>
-
             <a href="#contact" class="block">Contact</a>
         </div>
     </div>
@@ -258,32 +245,26 @@
                     <span
                         class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                </span>
-                Open for Collaboration
+                </span> Open for Collaboration
             </div>
-
             <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight text-white">
                 Building Efficient Systems <br>
                 <span
-                    class="block text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-accent via-cyan-300 to-secondary">
-                    Through Code & Logic.
-                </span>
+                    class="block text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-accent via-cyan-300 to-secondary">Through
+                    Code & Logic.</span>
             </h2>
-
-            <p class="text-lg md:text-xl text-slate-400 mb-2 font-medium">
-                Hi, I'm <span class="text-slate-100 font-semibold">Junayed Ahmed</span>.
-            </p>
-            <p class="text-base text-slate-500 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
-                Computer Science Student & Embedded System Programmer at <a href="https://droidco.co" target="_blank"
+            <p class="text-lg md:text-xl text-slate-400 mb-2 font-medium">Hi, I'm <span
+                    class="text-slate-100 font-semibold">Junayed Ahmed</span>.</p>
+            <p class="text-base text-slate-500 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">Computer Science Student &
+                Embedded System Programmer at <a href="https://droidco.co" target="_blank"
                     class="text-accent hover:text-cyan-300 underline underline-offset-4 decoration-accent/30">Droidco.co</a>.
             </p>
-
             <div class="flex flex-wrap justify-center md:justify-start gap-4">
                 <a href="#contact"
-                    class="bg-accent hover:bg-cyan-400 text-main px-8 py-3 rounded-lg font-bold transition-all shadow-[0_0_20px_-5px_rgba(34,211,238,0.5)]">
-                    Get In Touch
-                </a>
-                <button onclick="openModal('Video resume.mp4', 'Junayed Ahmed | Video Resume')"
+                    class="bg-accent hover:bg-cyan-400 text-main px-8 py-3 rounded-lg font-bold transition-all shadow-[0_0_20px_-5px_rgba(34,211,238,0.5)]">Get
+                    In Touch</a>
+
+                <button onclick="openModal('Video resume.mp4', 'Junayed Ahmed | Video Resume', true)"
                     class="group border border-slate-700 bg-card hover:border-secondary/50 text-slate-300 hover:text-secondary px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all">
                     <i data-lucide="play-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i> Watch
                     Resume
@@ -294,9 +275,7 @@
                 </a>
             </div>
         </div>
-
         <div class="relative group">
-            <!-- Glow uses secondary accent for depth -->
             <div
                 class="absolute -inset-1 bg-gradient-to-tr from-accent to-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000">
             </div>
@@ -431,207 +410,231 @@
         </div>
     </section>
 
-
     <!-- Embedded Projects Section -->
     <section id="embedded" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
-        <div class="flex items-center gap-4 mb-12">
-            <div class="p-3 bg-accent/10 rounded-xl">
-                <i data-lucide="cpu" class="w-8 h-8 text-accent"></i>
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16">
+            <div class="flex items-center gap-4">
+                <div class="p-4 bg-accent/10 rounded-2xl border border-accent/20">
+                    <i data-lucide="cpu" class="w-10 h-10 text-accent"></i>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-white tracking-tight">Embedded Systems</h3>
+                    <p class="text-slate-500 text-sm mt-1">Integrating hardware logic with low-level software
+                        optimization.</p>
+                </div>
             </div>
-            <div>
-                <h3 class="text-3xl font-bold text-white">Embedded Projects</h3>
-                <p class="text-slate-500 text-sm mt-1">Bridging software logic with physical reality.</p>
-            </div>
+            <div class="hidden md:block h-[1px] flex-1 bg-gradient-to-r from-accent/20 to-transparent ml-8 mb-4"></div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
+        <div class="grid md:grid-cols-2 gap-10">
 
-            <!-- Card 1 -->
+            <!-- Card 1: Security System -->
             <div
-                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
-                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-accent/30 transition-all duration-500 shadow-2xl flex flex-col">
+                <div class="group/image relative h-60 mb-8 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
                     onclick="openImageModal('project.png')">
                     <img src="project.png" alt="Security System" loading="lazy"
                         class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
+
+                    <!-- Premium Hover Overlay -->
                     <div
-                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                        <span
-                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
-                        </span>
+                        class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                        <div class="translate-y-4 group-hover/image:translate-y-0 transition-transform duration-500">
+                            <span
+                                class="bg-white text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-xl">
+                                <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
-                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Advanced
-                        Security System</h4>
-                    <div class="flex flex-wrap gap-2 mt-3 mb-4">
+
+                <div class="flex flex-col flex-1 px-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         <span
-                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
+                            class="px-2.5 py-1 bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider rounded-lg border border-accent/20">Arduino
                             Mega</span>
                         <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Keypad</span>
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">Keypad</span>
                         <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Seven
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">Seven
                             Segment Display</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Multi-layer authentication hub utilizing
-                        encrypted input processing and real-time visual feedback.</p>
 
-                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
-                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
-                            Eliminated mechanical bounce noise by 95% using software debouncing.</p>
+                    <h4 class="text-2xl font-bold text-slate-100 group-hover/card:text-accent transition-colors mb-3">
+                        Advanced Security System</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Multi-layer authentication hub utilizing
+                        encrypted input processing and real-time visual feedback for high-security environments.</p>
+
+                    <!-- Technical Impact Badge -->
+                    <div class="mt-auto mb-6 p-4 bg-slate-950/50 rounded-2xl border-l-4 border-accent">
+                        <p class="text-[10px] text-accent uppercase font-bold tracking-widest mb-1">Technical Insight
+                        </p>
+                        <p class="text-xs text-slate-300 italic">Implemented software debouncing to eliminate 95% of
+                            mechanical signal noise.</p>
                     </div>
 
-                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                    <div class="pt-6 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/leon_project.ino"
                             target="_blank"
-                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                            class="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i> Source Code
                         </a>
                         <i data-lucide="arrow-up-right"
-                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
+                            class="w-5 h-5 text-slate-700 group-hover/card:text-accent transition-transform group-hover/card:translate-x-1 group-hover/card:-translate-y-1"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 2 -->
+            <!-- Card 2: Obstacle Avoiding Car -->
             <div
-                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
-                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl bg-main">
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-500 shadow-2xl flex flex-col border border-white/5">
+                <div
+                    class="group/image relative h-60 mb-8 overflow-hidden rounded-2xl bg-slate-950 border border-slate-800">
                     <img src="ObstacleAvoidingCar.jpeg" alt="Robot Car" loading="lazy"
                         class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
+
                     <div
                         class="absolute inset-0 bg-main/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
-                        <button onclick="openModal('Obstacle_Avoiding_Car.mp4', 'Obstacle Avoiding Car')"
-                            class="px-5 py-2 bg-accent hover:bg-cyan-300 text-main rounded-lg font-bold text-xs uppercase flex items-center gap-2 transition">
-                            <i data-lucide="play" class="w-4 h-4 fill-current"></i> Demo
+                        <button onclick="openModal('Obstacle_Avoiding_Car.mp4', 'Obstacle Avoiding Car', true)"
+                            class="px-6 py-2.5 bg-secondary text-white rounded-xl font-bold text-xs uppercase flex items-center gap-2 hover:scale-105 transition shadow-lg shadow-secondary/20">
+                            <i data-lucide="play" class="w-4 h-4 fill-current"></i> Watch Demo
                         </button>
                         <button onclick="openImageModal('ObstacleAvoidingCar.jpeg')"
-                            class="px-5 py-2 bg-white hover:bg-slate-200 text-slate-950 rounded-lg font-bold text-xs uppercase flex items-center gap-2 transition">
-                            <i data-lucide="image" class="w-4 h-4"></i> Photo
+                            class="px-6 py-2.5 bg-white text-slate-950 rounded-xl font-bold text-xs uppercase flex items-center gap-2 hover:scale-105 transition shadow-lg">
+                            <i data-lucide="image" class="w-4 h-4"></i> View Photo
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
-                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">
-                        Autonomous Avoiding Car</h4>
-                    <div class="flex flex-wrap gap-2 mt-3 mb-4">
+
+                <div class="flex flex-col flex-1 px-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         <span
-                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
+                            class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-lg border border-secondary/20">Arduino
                             Uno</span>
                         <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">L298N</span>
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">Ultrasonic
+                            Sensor</span>
                         <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">ULTRASONIC
-                            SENSOR</span>
-                    </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Robotic vehicle featuring sensor-guided
-                        pathfinding and servo-controlled scanning.</p>
-
-                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
-                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
-                            Achieved < 200ms reaction time for obstacle detection.</p>
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">L298N</span>
                     </div>
 
-                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                    <h4
+                        class="text-2xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors mb-3">
+                        Autonomous Avoiding Car</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Intelligent vehicle featuring real-time
+                        sensor-guided pathfinding and servo-controlled environmental scanning.</p>
+
+                    <!-- Technical Impact Badge -->
+                    <div class="mt-auto mb-6 p-4 bg-slate-950/50 rounded-2xl border-l-4 border-secondary">
+                        <p class="text-[10px] text-secondary uppercase font-bold tracking-widest mb-1">Performance</p>
+                        <p class="text-xs text-slate-300 italic">Achieved sub-200ms reaction time for obstacle detection
+                            and course correction.</p>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/ObstacleAvoidingCar.ino"
                             target="_blank"
-                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                            class="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i> Source Code
                         </a>
                         <i data-lucide="arrow-up-right"
-                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
+                            class="w-5 h-5 text-slate-700 group-hover/card:text-secondary transition-transform group-hover/card:translate-x-1 group-hover/card:-translate-y-1"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 3 -->
+            <!-- Card 3: Climate Detection -->
             <div
-                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
-                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-accent/30 transition-all duration-500 shadow-2xl flex flex-col border border-white/5">
+                <div class="group/image relative h-60 mb-8 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
                     onclick="openImageModal('DHT_Project.png')">
                     <img src="DHT_Project.png" alt="Climate Hub" loading="lazy"
                         class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
                     <div
-                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
                         <span
-                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
+                            class="bg-white text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-xl">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
                         </span>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
-                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Climate
-                        Detection Hub</h4>
-                    <div class="flex flex-wrap gap-2 mt-3 mb-4">
+
+                <div class="flex flex-col flex-1 px-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         <span
-                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">DHT22</span>
-                        <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">I2C
+                            class="px-2.5 py-1 bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider rounded-lg border border-accent/20">I2C
                             LCD</span>
-                    </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Environmental monitor triggering automated
-                        cooling systems based on real-time data.</p>
-
-                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
-                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
-                            Maintained temperature thresholds with ±0.5°C accuracy.</p>
+                        <span
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">DHT22
+                            Sensor</span>
                     </div>
 
-                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                    <h4 class="text-2xl font-bold text-slate-100 group-hover/card:text-accent transition-colors mb-3">
+                        Climate Detection Hub</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Environmental monitor triggering automated
+                        cooling systems based on high-precision real-time sensor data.</p>
+
+                    <div class="mt-auto mb-6 p-4 bg-slate-950/50 rounded-2xl border-l-4 border-accent">
+                        <p class="text-[10px] text-accent uppercase font-bold tracking-widest mb-1">Accuracy</p>
+                        <p class="text-xs text-slate-300 italic">Maintained climate thresholds with ±0.5°C temperature
+                            precision accuracy.</p>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/DHT_project.ino"
                             target="_blank"
-                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                            class="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i> Source Code
                         </a>
-                        <i data-lucide="arrow-up-right"
-                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 4 -->
+            <!-- Card 4: Traffic Control -->
             <div
-                class="group/card relative glass-card rounded-3xl p-6 hover:border-accent/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.1)] flex flex-col">
-                <div class="group/image relative h-56 mb-6 overflow-hidden rounded-xl cursor-pointer bg-main"
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-500 shadow-2xl flex flex-col border border-white/5">
+                <div class="group/image relative h-60 mb-8 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
                     onclick="openImageModal('Traffic_Control.png')">
                     <img src="Traffic_Control.png" alt="Traffic System" loading="lazy"
                         class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-90 group-hover/image:opacity-100">
                     <div
-                        class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
                         <span
-                            class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="zoom-in" class="w-4 h-4"></i> Diagram
+                            class="bg-white text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-xl">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
                         </span>
                     </div>
                 </div>
-                <div class="flex flex-col flex-1">
-                    <h4 class="text-xl font-bold text-slate-100 group-hover/card:text-accent transition-colors">Smart
-                        Traffic Control</h4>
-                    <div class="flex flex-wrap gap-2 mt-3 mb-4">
+
+                <div class="flex flex-col flex-1 px-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         <span
-                            class="px-2 py-1 bg-slate-950 text-accent text-[10px] font-bold uppercase tracking-wider rounded border border-accent/10">Arduino
+                            class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-lg border border-secondary/20">Arduino
                             Nano</span>
                         <span
-                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">DUAL
-                            CONTROL</span>
-                    </div>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-4">Intersection controller featuring
-                        synchronized timing cycles and manual override interrupts.</p>
-
-                    <div class="mb-6 p-3 bg-slate-950/50 rounded-lg border-l-2 border-accent">
-                        <p class="text-xs text-slate-300 italic"><span class="font-bold text-accent">Impact:</span>
-                            Designed FSM (Finite State Machine) logic to prevent deadlock states.</p>
+                            class="px-2.5 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-800">Dual
+                            Control</span>
                     </div>
 
-                    <div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+                    <h4
+                        class="text-2xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors mb-3">
+                        Smart Traffic Control</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Intersection controller featuring
+                        synchronized timing cycles and manual override interrupts for traffic flow.</p>
+
+                    <div class="mt-auto mb-6 p-4 bg-slate-950/50 rounded-2xl border-l-4 border-secondary">
+                        <p class="text-[10px] text-secondary uppercase font-bold tracking-widest mb-1">Architecture</p>
+                        <p class="text-xs text-slate-300 italic">Designed using Finite State Machine (FSM) logic to
+                            prevent critical deadlock states.</p>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/5 flex justify-between items-center">
                         <a href="https://github.com/jahmed9832/Embedded-Project/blob/main/TraficControlProject.ino"
                             target="_blank"
-                            class="text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
-                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                            class="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i> Source Code
                         </a>
-                        <i data-lucide="arrow-up-right"
-                            class="w-4 h-4 text-slate-600 group-hover/card:text-accent transition"></i>
                     </div>
                 </div>
             </div>
@@ -651,27 +654,33 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-1 gap-10">
-            <!-- Card BG: Same dark theme, but hover effects use secondary color -->
+        <div class="grid md:grid-cols-1 gap-12">
+
+            <!-- Project 1: URL Shortener (Updated to match Project 2's design) -->
             <div
                 class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-300 shadow-2xl flex flex-col md:flex-row gap-8">
-
                 <div class="md:w-5/12 flex flex-col gap-4">
-                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-main"
+                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
                         onclick="openImageModal('url_short.png')">
+
                         <img src="url_short.png" alt="Algorithm Visualization" loading="lazy"
-                            class="w-full h-full object-cover transform group-hover/image:scale-105 transition duration-700 opacity-90">
+                            class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-80 group-hover:opacity-100">
+
+                        <!-- Premium Hover Overlay -->
                         <div
-                            class="absolute inset-0 bg-main/50 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <span
-                                class="bg-white/90 text-slate-900 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="maximize-2" class="w-4 h-4"></i> View Photo
-                            </span>
+                            class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                            <div
+                                class="translate-y-4 group-hover/image:translate-y-0 transition-transform duration-500">
+                                <span
+                                    class="bg-secondary text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-[0_0_20px_rgba(167,139,250,0.5)]">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <button onclick="openModal('URL_Shortener.mp4', 'High-Performance URL Shortener')"
-                        class="w-full bg-slate-950 text-secondary border border-slate-700 hover:bg-secondary hover:text-main hover:border-secondary py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 group/btn">
+                    <button onclick="openModal('URL_Shortener.mp4', 'High-Performance URL Shortener', false)"
+                        class="w-full bg-slate-950 text-secondary border border-slate-700 hover:bg-secondary hover:text-main py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 group/btn">
                         <i data-lucide="play-circle" class="w-5 h-5 group-hover/btn:fill-current"></i> Watch Logic
                         Simulation
                     </button>
@@ -679,9 +688,10 @@
 
                 <div class="md:w-7/12 flex flex-col justify-center">
                     <h4 class="text-3xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors">
-                        High-Performance URL Shortener</h4>
+                        High-Performance URL Shortener
+                    </h4>
 
-                    <div class="flex flex-wrap gap-2 mt-4 mb-6">
+                    <div class="flex flex-wrap gap-2 mt-2 mb-6">
                         <span
                             class="px-2 py-1 bg-slate-950 text-secondary text-[10px] font-bold uppercase tracking-wider rounded border border-secondary/20">C++</span>
                         <span
@@ -708,12 +718,179 @@
                         </li>
                     </ul>
 
-                    <div class="pt-6 border-t border-white/5">
+                    <div class="pt-6 border-t border-white/5 flex flex-wrap items-center gap-4">
                         <a href="https://github.com/jahmed9832/URL_Shortener/blob/main/url_shortener.cpp"
                             target="_blank"
-                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-all duration-300 shadow-lg shadow-white/5">
+                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-all duration-300 shadow-lg">
                             <i data-lucide="github" class="w-4 h-4"></i> View Source Code
                         </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: Meeting Room Conflict Finder -->
+            <div
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-300 shadow-2xl flex flex-col md:flex-row gap-8">
+                <div class="md:w-5/12 flex flex-col gap-4">
+                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
+                        onclick="openImageModal('Meeting_room.png')">
+
+                        <img src="Meeting_room.png" alt="Meeting Scheduler Preview" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-80 group-hover:opacity-100">
+
+                        <div
+                            class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                            <div
+                                class="translate-y-4 group-hover/image:translate-y-0 transition-transform duration-500">
+                                <span
+                                    class="bg-secondary text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-[0_0_20px_rgba(167,139,250,0.5)]">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        onclick="openModal('meeting Room Finder.mp4', 'Meeting Room Conflict Finder | Logic Simulation', false)"
+                        class="w-full bg-slate-950 text-secondary border border-slate-700 hover:bg-secondary hover:text-main py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 group/btn">
+                        <i data-lucide="play-circle" class="w-5 h-5 group-hover/btn:fill-current"></i> Watch Logic
+                        Simulation
+                    </button>
+                </div>
+
+                <div class="md:w-7/12 flex flex-col justify-center">
+                    <h4 class="text-3xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors">
+                        Meeting Room Scheduler
+                    </h4>
+
+                    <div class="flex flex-wrap gap-2 mt-2 mb-6">
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-secondary text-[10px] font-bold uppercase tracking-wider rounded border border-secondary/20">C++</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Greedy
+                            Algorithm</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Merge
+                            Sort</span>
+                    </div>
+
+                    <p class="text-slate-400 text-base leading-relaxed mb-6">
+                        Architected an <strong>Interval Scheduling System</strong> designed to identify and resolve
+                        resource conflicts.
+                        The system utilizes a <strong>Greedy Approach</strong> to determine the minimum resource
+                        allocation required for overlapping time slots.
+                    </p>
+
+                    <ul class="space-y-2 mb-8 text-sm text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i>
+                            <span>Implemented <strong>Merge Sort</strong> to achieve <strong>O(N log N)</strong> time
+                                complexity for ordering.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i>
+                            <span>Developed a <strong>Greedy Logic</strong> pipeline for peak conflict detection and
+                                analysis.</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-6 border-t border-white/5 flex flex-wrap items-center gap-4">
+                        <a href="https://github.com/jahmed9832/Meeting-Room-Conflict-Finder-Sorting-Range-Check-/blob/main/main.cpp"
+                            target="_blank"
+                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-all duration-300 shadow-lg">
+                            <i data-lucide="github" class="w-4 h-4"></i> View Source Code
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Console Game Section -->
+    <section id="console-game" class="max-w-6xl mx-auto px-6 py-24 border-t border-slate-800/50">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="p-3 bg-secondary/10 rounded-xl">
+                <i data-lucide="terminal" class="w-8 h-8 text-secondary"></i>
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold text-white">Console Game Project</h3>
+                <p class="text-slate-500 text-sm mt-1">Advanced Object-Oriented game logic optimized for high-refresh
+                    terminal rendering.</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-1 gap-10">
+            <div
+                class="group/card relative glass-card rounded-[2rem] p-6 hover:border-secondary/30 transition-all duration-300 shadow-2xl flex flex-col md:flex-row gap-8">
+
+                <div class="md:w-5/12 flex flex-col gap-4">
+                    <div class="group/image relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-slate-950 border border-slate-800"
+                        onclick="openImageModal('Space_Hunter.png')">
+
+                        <img src="Space_Hunter.png" alt="Space Hunter Pro Preview" loading="lazy"
+                            class="w-full h-full object-cover transform group-hover/image:scale-110 transition duration-700 opacity-80 group-hover:opacity-100">
+
+                        <div
+                            class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/image:opacity-100 transition-all duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                            <div
+                                class="translate-y-4 group-hover/image:translate-y-0 transition-transform duration-500">
+                                <span
+                                    class="bg-secondary text-main px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2 shadow-[0_0_20px_rgba(167,139,250,0.5)]">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Click to Expand
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal('SpaceHunter.mp4', 'Space Hunter Pro | Gameplay Simulation', false)"
+                        class="w-full bg-slate-950 text-secondary border border-slate-700 hover:bg-secondary hover:text-main py-3 rounded-xl flex items-center justify-center gap-2 font-bold transition-all duration-300 group/btn">
+                        <i data-lucide="play-circle" class="w-5 h-5 group-hover/btn:fill-current"></i> Watch Simulation
+                    </button>
+                </div>
+
+                <div class="md:w-7/12 flex flex-col justify-center">
+                    <h4 class="text-3xl font-bold text-slate-100 group-hover/card:text-secondary transition-colors">
+                        Space Hunter Pro <span class="text-sm font-mono text-slate-500">v1.0</span>
+                    </h4>
+
+                    <div class="flex flex-wrap gap-2 mt-2 mb-6">
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-secondary text-[10px] font-bold uppercase tracking-wider rounded border border-secondary/20">C++17</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-700">Win32
+                            API</span>
+                        <span
+                            class="px-2 py-1 bg-slate-950 text-slate-400 text-[10px] font-bold uppercase rounded border border-slate-700">Multi-threading</span>
+                    </div>
+
+                    <p class="text-slate-400 text-base leading-relaxed mb-6">
+                        <strong>Space Hunter Pro</strong> is a technically advanced CLI shooter engineered in
+                        <strong>C++</strong>.
+                        It features a custom <strong>Graphics Engine</strong> using direct console buffer manipulation
+                        for flicker-free gameplay.
+                    </p>
+
+                    <ul class="space-y-2 mb-8 text-sm text-slate-400">
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i><span>Double-Buffered GFX Engine
+                                using <code>WriteConsoleOutput</code>.</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-secondary mt-0.5 shrink-0"></i><span>Asynchronous Audio via detached
+                                threads for non-blocking SFX.</span></li>
+                    </ul>
+
+                    <div class="pt-6 border-t border-white/5 flex flex-wrap items-center gap-4">
+                        <a href="https://github.com/jahmed9832/Console-Game" target="_blank"
+                            class="inline-flex items-center gap-3 text-sm font-bold text-slate-900 bg-white px-6 py-3 rounded-lg hover:bg-secondary transition-all">
+                            <i data-lucide="github" class="w-4 h-4"></i> Source Code
+                        </a>
+                        <div class="px-4 py-2 bg-slate-950/50 rounded-lg border-l-2 border-secondary">
+                            <p class="text-[10px] text-secondary uppercase font-bold tracking-widest">Performance</p>
+                            <p class="text-xs text-slate-300">Flicker-Free @ 30 FPS Stable</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -804,7 +981,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Footer / Contact -->
     <footer id="contact" class="bg-section border-t border-slate-800">
@@ -924,10 +1100,8 @@
         </div>
     </footer>
 
-
-    <!-- Main Logic Script -->
     <script>
-        // 1. Scroll Progress Bar
+        // ১. স্ক্রল প্রগ্রেস বার (Scroll Progress Bar)
         window.addEventListener("scroll", () => {
             const scrollBar = document.getElementById("scrollBar");
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -936,127 +1110,104 @@
             if (scrollBar) scrollBar.style.width = scrolled + "%";
         });
 
-        // 2. Active Link Highlighting
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll(".nav-link");
-
-        window.addEventListener("scroll", () => {
-            let current = "";
-            sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute("id");
-                }
-            });
-
-            navLinks.forEach((link) => {
-                link.classList.remove("active-nav");
-                if (link.getAttribute("href").includes(current) && current !== "") {
-                    link.classList.add("active-nav");
-                }
-            });
-        });
-
-        // 3. Video Modal Logic
-        function openModal(src, title) {
+        // ২. ডাইনামিক ভিডিও মোডাল (Dynamic Video Modal)
+        function openModal(src, title, isVertical = false) {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('resumeVideo');
             const titleEl = document.getElementById('videoTitle');
+            const videoFrame = document.getElementById('videoFrame');
 
             if (video) video.src = src;
             if (titleEl) titleEl.innerText = title;
 
+            // ভিডিওর অরিয়েন্টেশন অনুযায়ী ফ্রেম সেট করা
+            if (isVertical) {
+                videoFrame.classList.add('video-portrait');
+                videoFrame.classList.remove('video-landscape');
+            } else {
+                videoFrame.classList.add('video-landscape');
+                videoFrame.classList.remove('video-portrait');
+            }
+
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.style.display = 'flex';
-                if (video) video.play();
-                document.body.style.overflow = 'hidden';
+                video.play();
+                document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করা
             }
         }
 
         function closeModal() {
             const modal = document.getElementById('videoModal');
             const video = document.getElementById('resumeVideo');
-
             if (modal) {
                 modal.classList.add('hidden');
                 modal.style.display = 'none';
             }
             if (video) {
                 video.pause();
-                video.currentTime = 0;
-                video.src = ""; // Stop buffering
+                video.src = ""; // মেমোরি ক্লিয়ার করার জন্য
             }
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // স্ক্রল চালু করা
         }
 
-        // 4. Image Modal Logic
-        const imageModal = document.getElementById('imageModal');
-        const modalFullImg = document.getElementById('modalFullImg');
-
+        // ৩. ইমেজ মোডাল (Image Modal with Flex Centering)
         function openImageModal(imgSrc) {
-            if (modalFullImg) modalFullImg.src = imgSrc;
-            if (imageModal) {
-                imageModal.classList.remove('hidden');
-                imageModal.classList.add('flex-modal');
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('modalFullImg');
+            if (img) img.src = imgSrc;
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
             }
         }
 
         function closeImageModal() {
-            if (imageModal) {
-                imageModal.classList.add('hidden');
-                imageModal.classList.remove('flex-modal');
-                document.body.style.overflow = 'auto';
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
             }
+            document.body.style.overflow = 'auto';
         }
 
-        // 5. Close on Click Outside or Escape Key
-        window.onclick = function (event) {
+        // ৪. মোডালের বাইরে ক্লিক করলে বন্ধ হওয়া
+        window.onclick = (e) => {
             const vModal = document.getElementById('videoModal');
             const iModal = document.getElementById('imageModal');
-            if (event.target == vModal) closeModal();
-            if (event.target == iModal) closeImageModal();
+            if (e.target == vModal) closeModal();
+            if (e.target == iModal) closeImageModal();
         }
 
-        document.addEventListener('keydown', function (event) {
-            if (event.key === "Escape") {
-                closeModal();
-                closeImageModal();
-            }
-        });
-    </script>
-
-    <!-- Init & Menu Script -->
-    <script>
+        // ৫. মেনু এবং আইকন লোড (Init & Menu Logic)
         document.addEventListener("DOMContentLoaded", () => {
-            // Initialize Icons Once
+            // লূসিড আইকন চালু করা
             lucide.createIcons();
 
-            // Mobile menu toggle logic
+            // মোবাইল মেনু লজিক
             const menuBtn = document.getElementById("menuBtn");
             const mobileMenu = document.getElementById("mobileMenu");
 
             if (menuBtn && mobileMenu) {
-                // Toggle menu on hamburger click
+                // মেনু বাটন ক্লিক করলে ওপেন/ক্লোজ হবে
                 menuBtn.addEventListener("click", () => {
                     mobileMenu.classList.toggle("hidden");
                 });
-                // NEW FIX: Auto-close mobile menu when any link is clicked
-                const mobileLinks = mobileMenu.querySelectorAll("a");
 
+                // মেনুর যেকোনো লিঙ্কে ক্লিক করলে মেনুটি অটোমেটিক বন্ধ হয়ে যাবে (FIX)
+                const mobileLinks = mobileMenu.querySelectorAll("a");
                 mobileLinks.forEach(link => {
                     link.addEventListener("click", () => {
-                        mobileMenu.classList.add("hidden"); // Hide the menu
+                        mobileMenu.classList.add("hidden");
                     });
                 });
             }
 
-            // Desktop dropdown logic
+            // ডেস্কটপ প্রজেক্ট ড্রপডাউন লজিক
             const projectBtn = document.getElementById("projectBtn");
             const projectMenu = document.getElementById("projectMenu");
             const projectIcon = document.getElementById("projectIcon");
-
             let open = false;
 
             if (projectBtn) {
@@ -1069,7 +1220,6 @@
                         projectMenu.classList.toggle("invisible", !open);
                         projectMenu.classList.toggle("translate-y-4", !open);
                         projectMenu.classList.toggle("scale-95", !open);
-
                         projectMenu.classList.toggle("opacity-100", open);
                         projectMenu.classList.toggle("visible", open);
                         projectMenu.classList.toggle("translate-y-0", open);
@@ -1079,7 +1229,7 @@
                 });
             }
 
-            // Outside click close logic for Desktop Dropdown
+            // ড্রপডাউনের বাইরে ক্লিক করলে সেটি বন্ধ করা
             document.addEventListener("click", () => {
                 open = false;
                 if (projectMenu) {
@@ -1091,4 +1241,5 @@
         });
     </script>
 </body>
+
 </html>
